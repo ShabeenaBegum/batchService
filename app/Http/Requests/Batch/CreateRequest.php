@@ -32,13 +32,13 @@ class CreateRequest extends FormRequest
             'batch_urgency'    => 'required',
             'location.city' => 'required_if:mode_of_training,offline',
             'location.country' => 'required',
-            'start_date' => 'required|date',
+            'start_date' => 'required|date|after_or_equal:today',
             'duration' => 'required|integer',
             'mentor' => 'nullable|string',
             'days' => 'required|array',
             'batch_reference_name' => 'nullable',
             'reference_sem_name'   => 'nullable',
-            'course_session_details' =>  'required|array',
+            'course_session_details.*' =>  'required|array',
         ];
     }
 }

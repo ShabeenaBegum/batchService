@@ -17,9 +17,11 @@ class BatchTest extends TestCase
     protected function  setUp()
     {
         parent::setUp();
+        $this->withoutExceptionHandling();
         $this->user = factory(User::class)->create();
         $this->batch_details = DefaultBatchDetails::getBatch();
         $this->batch_structure = DefaultBatchDetails::getBatchStructure();
+        $this->actingAs($this->user, 'api');
     }
     /**
      * A basic test example.
@@ -32,25 +34,32 @@ class BatchTest extends TestCase
             "success" => true,
             "data" => $this->batch_structure
         ];
-        $this->actingAs($this->user, 'api');
         $response = $this->json("POST",'/api/batch', $this->batch_details);
         $response->assertStatus(201);
         $response->assertJson($out);
     }
 
-    public function test_it_check_for_course_plan_id()
+    public function test_it_check_for_course_and_plan_id()
     {
-        $this->actingAs($this->user, 'api');
-        $this->json("POST",'/api/batch', array_merge($this->batch_details, ["course_plan_id" => ""]))
+        $res = $this->json("POST",'/api/batch', array_merge($this->batch_details, ["course_plan_id" => "","course_id"=>""]))
             ->assertStatus(422)
-            ->assertJsonValidationErrors(["course_plan_id"]);
+            ->assertJsonValidationErrors(["course_plan_id","course_id"]);
+        dump($res->content());
     }
 
     public function test_it_check_for_start_date()
     {
-        $this->actingAs($this->user, 'api');
-        $this->json("POST",'/api/batch', array_merge($this->batch_details, ["start_date" => ""]))
+        $response = $this->json("POST",'/api/batch', array_merge($this->batch_details, ["start_date" => ""]))
             ->assertStatus(422)
             ->assertJsonValidationErrors(["start_date"]);
+    }
+
+    public function test_for_session_dates()
+    {
+        $response = $this->json("POST",'/api/batch', array_merge($this->batch_details,
+            ["days" => [[ "day" => "thursday", "time" => "12:00"]]]
+        ))
+                ->assertStatus(201);
+        $this->assertArraySubset($response->decodeResponseJson()['data']['days'],$this->batch_details['days']);
     }
 }

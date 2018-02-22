@@ -54,7 +54,7 @@ class BatchController extends Controller
             return resOk((new CreateService())->handle($data), 201);
         } catch (Exception $e){
             info($e);
-            throw new BatchCreation('Batch creation error');
+            throw $e;
 
         }
     }

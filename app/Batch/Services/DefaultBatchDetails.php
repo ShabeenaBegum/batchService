@@ -123,4 +123,43 @@ class DefaultBatchDetails
             "status" => "pending",
         ];
     }
+
+    public static function getBatchDates()
+    {
+        return [
+            "course_session_details" => [
+                "modules" => [
+                    [
+                    "module_name" => "Map reduce",
+                    "session_list" => [
+                        [
+                        "date" => "2018-02-25",
+                        "status" => "pending",
+                        "time" => "12:00"
+                        ],
+                        [
+                            "date" => "2018-02-25",
+                            "status" => "pending",
+                            "time" => "12:00"
+                        ]
+                    ]
+                        ],
+                    [
+                        "module_name" => "Map reduce",
+                        "session_list" => [[
+                            "date" => "2018-03-02",
+                            "status" => "pending",
+                            "time" => "12:00"]]
+                    ]]
+            ],
+            "days" => [[
+                "day" => "thursday", "time" => "12:00"], [
+                "day" => "friday", "time" => "12:00"]],
+            "duration" => "120",
+            "location" => [
+                "city" => "bangalore", "country" => "india"],
+            "start_date" => "2018-02-25",
+            "status" => "pending",
+        ];
+    }
 }
