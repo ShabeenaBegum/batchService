@@ -27,7 +27,7 @@ class CreateRequest extends FormRequest
         return [
             'course_plan_id' => 'required',
             'course_id'      => 'required',
-            /*'status'         => ['required',
+            'status'         => ['required',
                 Rule::in(['pending', 'completed','yet_to_start'])],
             'batch_urgency'    => 'required',
             'location.city' => 'required_if:mode_of_training,offline',
@@ -38,7 +38,7 @@ class CreateRequest extends FormRequest
             'days' => 'required|array',
             'batch_reference_name' => 'nullable',
             'reference_sem_name'   => 'nullable',
-            'course_session_details' =>  'required|array',*/
+            'course_session_details' =>  'required|array',
         ];
     }
 }
