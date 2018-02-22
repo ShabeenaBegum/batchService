@@ -6,7 +6,7 @@
  * Time: 6:52 PM
  */
 
-namespace App\Batch\Services;
+namespace Tests\Feature\Batch;
 
 
 class DefaultBatchDetails

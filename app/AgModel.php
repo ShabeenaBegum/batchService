@@ -21,7 +21,9 @@ class AgModel extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->{$model->getKeyName()} = Uuid::uuid4()->toString();
+            if(!$model->{$model->getKeyName()}) {
+                $model->{$model->getKeyName()} = Uuid::uuid4()->toString();
+            }
         });
     }
 }

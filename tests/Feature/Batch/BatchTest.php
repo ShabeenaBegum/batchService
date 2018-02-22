@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Batch;
 
-use App\Batch\Services\DefaultBatchDetails;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,7 +16,7 @@ class BatchTest extends TestCase
     protected function  setUp()
     {
         parent::setUp();
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
         $this->user = factory(User::class)->create();
         $this->batch_details = DefaultBatchDetails::getBatch();
         $this->batch_structure = DefaultBatchDetails::getBatchStructure();
@@ -44,7 +43,6 @@ class BatchTest extends TestCase
         $res = $this->json("POST",'/api/batch', array_merge($this->batch_details, ["course_plan_id" => "","course_id"=>""]))
             ->assertStatus(422)
             ->assertJsonValidationErrors(["course_plan_id","course_id"]);
-        dump($res->content());
     }
 
     public function test_it_check_for_start_date()

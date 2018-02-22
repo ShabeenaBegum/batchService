@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Batch;
 use App\Batch\Services\CreateService;
 use App\Batch\Services\UpdateService;
-use App\Exceptions\BatchCreation;
 use App\Http\Requests\Batch\CreateRequest;
 use App\Http\Requests\Batch\UpdateRequest;
 use Exception;
@@ -23,86 +22,79 @@ class BatchController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $req
      * @return \Illuminate\Http\Response
      */
     public function index(Request $req)
     {
-        if($req->has("ids")){
-            try{
-                $id_array = explode(',', $req->get('ids'));
-                return(Batch::whereIn('_id',$id_array)->get());
-            } catch (Exception $e){
-                info($e);
-            }
-        }else{
-            return resOk(Batch::paginate(10));
+        if ($req->has("ids")) {
+            $id_array = explode(',', $req->get('ids'));
+            return resOk(Batch::whereIn('_id', $id_array)->get());
         }
-
+        return resOk(Batch::paginate(10));
     }
 
     /**
      * Store a newly created batch in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
+     * @param CreateService $service
      * @return \Illuminate\Http\Response
+     * @throws Exception
      */
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request, CreateService $service)
     {
-        try{
+        try {
             $data = $request->all();
-//            info($data);
-            return resOk((new CreateService())->handle($data), 201);
-        } catch (Exception $e){
+            return resOk($service->handle($data), 201);
+        } catch (Exception $e) {
             info($e);
             throw $e;
-
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Batch $batch
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Batch $batch)
     {
-        try{
-
-
-            info($id);
-        } catch (Exception $e){
-            info($e);
-        }
+        return resOk($batch);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdateRequest $request
+     * @param Batch $batch
+     * @param UpdateService $service
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, Batch $batch)
+    public function update(UpdateRequest $request, Batch $batch, UpdateService $service)
     {
-        try{
-            info('in update');
-//            return (auth()->user()->_id);
+        try {
             $data = $request->all();
-            return (new UpdateService())->handle($data, $batch);
-        } catch (Exception $e){
+            return resOk($service->handle($data, $batch));
+        } catch (Exception $e) {
             info($e);
+            return resError();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Batch $batch
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Batch $batch)
     {
-        //
+        try {
+            return resOk($batch->delete());
+        } catch (Exception $e) {
+            return resError();
+        }
     }
 }
