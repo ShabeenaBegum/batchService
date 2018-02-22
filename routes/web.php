@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("test", function(){
-    $user = \App\User::first();
-    $user->notify(new \App\Notifications\Test("hello"));
-});
+// Route::get("test", function(){
+//     $user = \App\User::first();
+//     $user->notify(new \App\Notifications\Test("hello"));
+// });
 Route::view("passport", "passport");
 
 Auth::routes();

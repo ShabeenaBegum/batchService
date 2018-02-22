@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function (Request $request) {
-    return $request->all();
-});
+
 
 Route::middleware('auth:api')->group(function () {
 
@@ -27,4 +26,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('user/profile', 'HomeController@index');
 
 });
+	Route::apiResource('batch', 'BatchController');
 

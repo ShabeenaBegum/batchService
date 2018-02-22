@@ -22,18 +22,18 @@ class ExampleTest extends TestCase
 
         $this->user = factory(User::class)->create();
     }
-    /**
-     * A basic test example.
-     * @return void
-     */
-    public function test_notification_is_sent()
-    {
-        Notification::fake();
-
-        $this->get('/test');
-
-        Notification::assertSentTo([$this->user], Test::class);
-    }
+//    /**
+//     * A basic test example.
+//     * @return void
+//     */
+//    public function test_notification_is_sent()
+//    {
+//        Notification::fake();
+//
+//        $this->get('/test');
+//
+//        Notification::assertSentTo([$this->user], Test::class);
+//    }
 
     public function test_It_gives_unauthenticated_error()
     {
