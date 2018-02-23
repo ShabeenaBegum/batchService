@@ -6,7 +6,9 @@ pipelines:
         caches:
           - composer
         script:
-         - apk add --no-cache php7-gd php7-xmlwriter php-mongodb
+         - apk add --no-cache php7-gd php7-xmlwriter
+         - pecl install mongodb
+         - docker-php-ext-enable mongodb
          - php -r "file_exists('.env') || copy('.env.example', '.env');"
          - composer install
          - php artisan key:generate
