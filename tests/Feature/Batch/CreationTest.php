@@ -7,13 +7,13 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class BatchTest extends TestCase
+class CreationTest extends TestCase
 {
     public $batch_details;
     public $user;
     public $batch_structure;
 
-    protected function  setUp()
+    protected function setUp()
     {
         parent::setUp();
         //$this->withoutExceptionHandling();
