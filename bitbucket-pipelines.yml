@@ -17,5 +17,5 @@ pipelines:
 definitions:
   services:
     mongodb:
-      image: mongodb
+      image: mongo
 
