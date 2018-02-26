@@ -49,8 +49,8 @@ class UpdateRequest extends FormRequest
                     }
                 }
             ],
-            'course_session_details' => 'required_with:course_plan_id|array',
-            'course_session_details.modules' => 'required_with:course_plan_id|array'
+            'modules' => 'required_with:course_plan_id|array',
+            'session_list' => 'required_with:course_plan_id|array'
 
         ];
     }

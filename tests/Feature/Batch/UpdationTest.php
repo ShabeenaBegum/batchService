@@ -29,6 +29,8 @@ class UpdationTest extends TestCase
         $this->update_date_changes = DefaultBatchDetails::getStartDateChange();
         $this->batch_structure = DefaultBatchDetails::getBatchStructure();
         $this->today_date = Carbon::parse("this thursday")->format("Y-m-d");
+        $this->extra_session = DefaultBatchDetails::extraSessionDetails();
+        $this->extra_session_updated = DefaultBatchDetails::extraSessionUpdated();
     }
 
     /**
@@ -83,5 +85,14 @@ class UpdationTest extends TestCase
         $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
         $res = $this->json('PUT','/api/batch/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->update_data,["start_date"=>$this->today_date]));
         $res->assertJson(["data"=>$this->update_date_changes]);
+    }
+
+    public function test_check_extra_session_updated()
+    {
+        $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
+        $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session,["module_id"=>$create_batch->decodeResponseJson()['data']['course_session_details']['modules'][0]['_id'],"after_session_id"=>$create_batch->decodeResponseJson()['data']['course_session_details']['modules'][0]['session_list'][0]['_id']]));
+//        dump($create_batch->decodeResponseJson()['data']); "after_session_id"=>$create_batch->decodeResponseJson()['data']['course_session_details']['modules'][0]['session_list'][0]['_id']+
+//        dump($res->content());
+        $res->assertJson(["data"=>$this->extra_session_updated]);
     }
 }

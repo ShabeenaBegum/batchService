@@ -25,24 +25,22 @@ class UpdateService
         $batch_data->location           = $data ['location'];
         if(isset($data['course_plan_id'])){
             if(($batch_data->course_plan_id != $data ['course_plan_id']) ||($batch_data->start_date != $data ['start_date']) ){
+                $session_list = $data['session_list'];
                 if(($batch_data->start_date != $data ['start_date'])&&($batch_data->course_plan_id != $data ['course_plan_id'])) {
-                    $modules = $data['course_session_details']['modules'];;
                     $batch_data->start_date = $data['start_date'];
                     $start_date = $data['start_date'];
                     $batch_data->course_plan_id     = $data ['course_plan_id'];
                 }
                 else if($batch_data->course_plan_id != $data ['course_plan_id']){
                     $batch_data->course_plan_id     = $data ['course_plan_id'];
-                    $modules = $data['course_session_details']['modules'];
                     $start_date = $batch_data->start_date;
                 }
                 else if($batch_data->start_date != $data ['start_date']) {
-                    $modules = $batch_data->course_session_details['modules'];
                     $batch_data->start_date = $data['start_date'];
                     $start_date = $data['start_date'];
                 }
-                $updated_date = BatchHelpers::getSessions($modules,$start_date,$batch_data->days,$batch_data->mentor);
-                $batch_data['course_session_details'] = ['modules' => $updated_date];
+                $updated_date = BatchHelpers::getSessions($session_list,$start_date,$batch_data->days,$batch_data->mentor);
+                $batch_data['session_list'] = $updated_date;
             }
         }
         $batch_data->updated_by = auth()->user()->_id;
@@ -62,9 +60,9 @@ class UpdateService
         $batch->status = $data['type'];
         $type['by'] = $data['by'];
         $type['reason'] = $data['reason'];
-        $batch['cancel'] = [] ;
+//        $batch['cancel'] = [] ;
         info(gettype($batch['cancel']));
-        $batch['cancel'][] = [[]=>$type];
+        $batch['cancel'] = [$type];
 
         $batch->save();
         return $batch;
@@ -84,89 +82,70 @@ class UpdateService
         ];
         $extra_session=[];
         $i=0;
+        $sessionlist = collect($batch['session_list']);
+        list($beforeSessions, $afterSession) = $sessionlist->partition(function ($i) use($data){
+            return $i['date'] > (Carbon::parse("2018-03-02"));
+        });
+//        return $beforeSessions;
+//        $beforeSessions->push($extra_session);
 
-        $modules = collect($batch['course_session_details']['modules']);
-        $module = null;
-        if($data->has("module_id")){
-            $module = $modules->where("_id", $data->get("module_id"))->first();
-        }else{
-           $module=  $modules->first();
-        }
-
-        $sessionlist = collect($module['session_list']);
+//        $extra_session_collection = collect($batch['course_session_details']['modules']['extra_sessions']);
 
 
-        $session = $sessionlist->firstWhere("_id", $data->get("after_session_id"));
-        if($session){
-            $week_day = $weekMap[Carbon::parse($session['date'])->dayOfWeek];
+        $after_session = $sessionlist->firstWhere("_id", $data->get("after_session_id"));
+        if($after_session){
+            $week_day = $weekMap[Carbon::parse($after_session['date'])->dayOfWeek];
             $j = 0;
             foreach ($batch['days'] as $day){
+                if($j == count($batch['days'])){
+                    $j=0;
+                }
+                $j++;
                 if($day['day'] == $week_day){
                     info('break');
                     break;
                 }
-                if($j == count($batch['days'])){
-                    $j=0;
-                    info('j=0');
-                }
-                $j++;
-                info($j);
             }
-//            return $j;
             if($j == count($batch['days'])){
                 $j=0;
             }
             $extra_session['_id'] = getUuid();
             $extra_session['heading'] = $data['session_heading'];
             $extra_session['topic'] = $data['session_topics'];
-            $extra_session['date'] = Carbon::parse($session['date'])->modify("this " . $batch['days'][$j]['day'])->format("Y-m-d");
+            $extra_session['date'] = Carbon::parse($after_session['date'])->modify("this " . $batch['days'][$j]['day'])->format("Y-m-d");
             $extra_session['time'] = $batch['days'][$j]['time'];
+            if($j+1 == count($batch['days'])){
+                $j=0;
+            }
+            $new_days = BatchHelpers::shift_key($batch['days'],$batch['days'][$j]);
+
+            $new_start_date = Carbon::parse($extra_session['date'])->modify("this " . $batch['days'][$j]['day'])->format("Y-m-d");
+
+            $day_index = array_search('friday', $batch['days']);
+            foreach ($batch['session_list'] as $index => $sessions)
+            {
+                if($sessions['_id'] == $data->get("after_session_id"))
+                {
+                    $after_session = BatchHelpers::split_array($batch['session_list'], $index+1);
+                    $after_session_collection = collect($after_session[0])->push($extra_session);
+//                    return $after_session_collection;
+                    $after_session_array = BatchHelpers::getSessions($after_session[1],  $new_start_date, $new_days, null, $batch['days'][$j+1]['day']);
+//                    return $after_session_array;
+                   break;
+                }
+            }
         }
+        $sessions_array = array_merge($after_session_collection->toArray(),$after_session_array);
+        $sessionlist = collect($sessions_array);
+//        return $sessionlist;
 
-            $sessionlist->push($extra_session);
-        $module['session_list'] = $sessionlist;
+        $batch['session_list'] = $sessionlist;
+        $batch->save();
 
-        return $module;
-        /*list($beforeSessions, $afterSession) = $sessionlist->partition(function ($i) use($data){
-            return $i['_id']  == $data->get("after_session_id");
-        });
-        $beforeSessions->push($extra_session);
-
-        return array_merge($beforeSessions->toArray(),$afterSession->toArray());*/
+        return $batch;
 
 
-//        foreach ($batch['course_session_details']['modules'] as $csd) {
-//            foreach ($csd['session_list'] as &$sessions) {
-//                if(isset($data['after_session_id'])){
-//                    if($sessions['_id'] == $data['after_session_id']){
-//                        $i=1;
-//                        $week_day = $weekMap[Carbon::parse($sessions['date'])->dayOfWeek];
-//                        $j = 0;
-//                        foreach ($batch['days'] as $day){
-//                            if($j == count($batch['days'])){
-//                                $j=0;
-//                            }
-//                            if($day['day'] == $week_day){
-//                                break;
-//                            }
-//                            $j++;
-//                        }
-//                        $extra_session['_id'] = "dffld";
-//                        $extra_session['heading'] = $data['session_heading'];
-//                        $extra_session['topic'] = $data['session_topics'];
-//                        $extra_session['date'] = Carbon::parse($sessions['date'])->modify("this " . $batch['days'][$j]['day'])->format("Y-m-d");
-//                        $extra_session['time'] = $batch['days'][$j]['time'];
-////
-//                    }
-//                }
-//                if($i == 1){
-////                    return $sessions;
-//                    $csd['session_list'][] = $extra_session;
-////                   / return $csd['session_list'];
-//                }
-//            }
-//
-//        }
-//        return $batch['course_session_details']['modules'];
+
     }
+
 }

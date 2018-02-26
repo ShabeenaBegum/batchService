@@ -15,8 +15,8 @@ class CreateService
     public function handle($data)
     {
         $data ['batch_name'] = $data ['start_date'];
-        $data['course_session_details']['modules'] = BatchHelpers::getSessions(
-            $data['course_session_details']['modules'],
+        $data['session_list'] = BatchHelpers::getSessions(
+            $data['session_list'],
             $data['start_date'],
             $data['days'],
             $data['mentor']);

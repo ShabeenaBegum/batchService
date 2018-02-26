@@ -121,7 +121,8 @@ class BatchController extends Controller
         $this->validate($request,[
             'session_heading' => 'required',
             'requested_by' => 'required',
-            'after_session_id' => 'sometimes'
+            'after_session_id' => 'required_without:session_date',
+            'session_date' => 'required_without:after_session_id'
         ]);
         try{
             return ((new UpdateService())->updateExtraSession($request, $batch));
