@@ -20,8 +20,8 @@ class BatchHelpers
         $j = 0;
         $temp = "";
         foreach ($modules as &$csd) {
+            $csd["_id"] = getUuid();
             foreach ($csd['session_list'] as &$sessions) {
-
                 if ($i == $total_days_in_week) {
                     $i = 0;
                 }
@@ -37,7 +37,7 @@ class BatchHelpers
                 }
                 $sessions['status'] = "pending";
                 $sessions['meeting'] = "";
-                $sessions['mentor'] = array_key_exists("mentor", $sessions) ? $sessions['mentor'] : $mentor;
+                $sessions['mentor'] = array_key_exists("mentor", $sessions) ? ($sessions['mentor'] != $mentor) ? $mentor : $sessions['mentor'] : $mentor;
                 $sessions['_id'] = getUuid();
                 $i++;
                 $j++;

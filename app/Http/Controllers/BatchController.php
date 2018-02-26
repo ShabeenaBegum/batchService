@@ -9,6 +9,7 @@ use App\Http\Requests\Batch\CreateRequest;
 use App\Http\Requests\Batch\UpdateRequest;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BatchController extends Controller
 {
@@ -96,4 +97,38 @@ class BatchController extends Controller
             return resError();
         }
     }
+
+    /**
+     * @param Request $request
+     * @param Batch $batch
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function BatchStatusChange(Request $request,Batch $batch)
+    {
+        $this->validate($request,[ 'type' => ['required', Rule::in(['cancel','active','inactive'])],
+            'by' => 'required',
+            'reason' => 'required']);
+        try {
+            return resOk((new UpdateService())->updateStatus($request->all(),$batch));
+        } catch (Exception $e) {
+            return ($e);
+            return resError();
+        }
+    }
+
+    public function BatchExtraSession(Request $request,Batch $batch)
+    {
+        $this->validate($request,[
+            'session_heading' => 'required',
+            'requested_by' => 'required',
+            'after_session_id' => 'sometimes'
+        ]);
+        try{
+            return ((new UpdateService())->updateExtraSession($request, $batch));
+        } catch (Exception $e){
+            return $e;
+        }
+    }
+
+
 }
