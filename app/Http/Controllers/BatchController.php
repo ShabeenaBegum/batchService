@@ -127,7 +127,7 @@ class BatchController extends Controller
             'session_time' =>'sometimes',
         ]);
         try{
-            return ((new UpdateService())->updateExtraSession($request, $batch));
+            return resOk((new UpdateService())->updateExtraSession($request, $batch));
         } catch (Exception $e){
             return $e;
         }

@@ -23,7 +23,7 @@ class DefaultBatchDetails
         return Carbon::parse("this thursday")->modify("this saturday")->format("Y-m-d");
     }
     public static function  session3(){
-        return Carbon::today()->modify("this thursday")->format("Y-m-d");
+        return Carbon::today()->modify("this saturday")->modify("this thursday")->format("Y-m-d");
     }
 
 
@@ -51,45 +51,46 @@ class DefaultBatchDetails
             ],
             "batch_reference_name" => "",
             "reference_sem_name" => "",
-            "course_session_details" => [
-                "modules" => [
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [
-                            [
-                                "heading" => "Introduction to MapReduce",
-                                "topics" => "what is map reduce",
-                                "materials" => "",
-                                "assignments" => "",
-                                "projects" => "",
-                                "reference_materials" => "",
-                                "mentors" => "",
-                                "meeting" => "",
-                                "students" => "",
-                                "cancellation" => ""
-                            ]
-                        ]
-                    ],
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [
-                            [
-                                "heading" => "Introduction to MapReduce",
-                                "topics" => "what is map reduce",
-                                "materials" => "",
-                                "assignments" => "",
-                                "projects" => "",
-                                "reference_materials" => "",
-                                "mentors" => "",
-                                "meeting" => "",
-                                "students" => "",
-                                "cancellation" => ""
-                            ]
-                        ]
-                    ]
-                ]
+            "modules" => [
+                [
+                    "module_name" => "Map reduce",
+                    "_id" => getUuid()
 
+                ],
+                [
+                    "module_name" => "Map reduce",
+                    "_id" => getUuid()
+                ]
             ],
+            "session_list" => [
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "topics" => "what is map reduce",
+                    "materials" => [],
+                    "assignments" => [],
+                    "projects" => [],
+                    "reference_materials" => [],
+                    "mentors" => [],
+                    "meeting" => [],
+                    "students" => [],
+                    "cancellation" => [],
+                    "module_id" => getUuid()
+                ],
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "topics" => "what is map reduce",
+                    "materials" => [],
+                    "assignments" => [],
+                    "projects" => [],
+                    "reference_materials" => [],
+                    "mentors" => [],
+                    "meeting" => [],
+                    "students" => [],
+                    "cancellation" => [],
+                    "module_id" => getUuid()
+                ]
+            ]
+
         ];
     }
 
@@ -100,34 +101,45 @@ class DefaultBatchDetails
             "batch_urgency" => "seats_filling_fast",
             "course_id" => 1,
             "course_plan_id" => "1112",
-            "course_session_details" => [
-                "modules" => [[
+            "modules" => [
+                [
                     "module_name" => "Map reduce",
-                    "session_list" => [[
-                        "assignments" => null,
-                        "cancellation" => null,
-                        "date" => static::session1(),
-                        "heading" => "Introduction to MapReduce",
-                        "materials" => null,
-                        "meeting" => "",
-                        "mentors" => null, "projects" => null,
-                        "reference_materials" => null, "status" => "pending",
-                        "students" => null,
-                        "time" => "12:00",
-                        "topics" => "what is map reduce"]]],
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [[
-                            "assignments" => null,
-                            "cancellation" => null,
-                            "date" => static::session2(),
-                            "heading" => "Introduction to MapReduce",
-                            "materials" => null, "meeting" => "",
-                            "mentor" => null, "mentors" => null,
-                            "projects" => null, "reference_materials" => null,
-                            "status" => "pending", "students" => null,
-                            "time" => "12:00",
-                            "topics" => "what is map reduce"]]]]],
+
+                ],
+                [
+                    "module_name" => "Map reduce",
+                ]
+            ],
+            "session_list" => [
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "topics" => "what is map reduce",
+                    "materials" => [],
+                    "assignments" => [],
+                    "projects" => [],
+                    "reference_materials" => [],
+                    "mentors" => [],
+                    "meeting" => [],
+                    "students" => [],
+                    "cancellation" => [],
+                    "date" => static::session1(),
+                    "time" => "12:00"
+                ],
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "topics" => "what is map reduce",
+                    "materials" => [],
+                    "assignments" => [],
+                    "projects" => [],
+                    "reference_materials" => [],
+                    "mentors" => [],
+                    "meeting" => [],
+                    "students" => [],
+                    "cancellation" => [],
+                    "date" => static::session2(),
+                    "time" => "12:00"
+                ]
+            ],
             "days" => [[
                 "day" => "thursday", "time" => "12:00"], [
                 "day" => "saturday", "time" => "12:00"]],
@@ -151,34 +163,45 @@ class DefaultBatchDetails
             "mock_interview" => 1,
             "mode_of_training" => "online",
             "course_plan_id"  => '1122',
-            "course_session_details" => [
-                "modules" => [[
+            "modules" => [
+                [
                     "module_name" => "Map reduce",
-                    "session_list" => [[
-                        "assignments" => null,
-                        "cancellation" => null,
-                        "date" => static::session1(),
-                        "heading" => "Introduction to MapReduce",
-                        "materials" => null,
-                        "meeting" => "",
-                        "mentors" => null, "projects" => null,
-                        "reference_materials" => null, "status" => "pending",
-                        "students" => null,
-                        "time" => "12:00",
-                        "topics" => "what is map reduce"]]],
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [[
-                            "assignments" => null,
-                            "cancellation" => null,
-                            "date" => static::session2(),
-                            "heading" => "Introduction to MapReduce",
-                            "materials" => null, "meeting" => "",
-                            "mentor" => null, "mentors" => null,
-                            "projects" => null, "reference_materials" => null,
-                            "status" => "pending", "students" => null,
-                            "time" => "12:00",
-                            "topics" => "what is map reduce"]]]]],
+
+                ],
+                [
+                    "module_name" => "Map reduce",
+                ]
+            ],
+            "session_list" => [
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "topics" => "what is map reduce",
+                    "materials" => [],
+                    "assignments" => [],
+                    "projects" => [],
+                    "reference_materials" => [],
+                    "mentors" => [],
+                    "meeting" => [],
+                    "students" => [],
+                    "cancellation" => [],
+                    "date" => static::session1(),
+                    "time" => "12:00"
+                ],
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "topics" => "what is map reduce",
+                    "materials" => [],
+                    "assignments" => [],
+                    "projects" => [],
+                    "reference_materials" => [],
+                    "mentors" => [],
+                    "meeting" => [],
+                    "students" => [],
+                    "cancellation" => [],
+                    "date" => static::session2(),
+                    "time" => "12:00"
+                ]
+            ]
         ];
     }
 
@@ -192,27 +215,26 @@ class DefaultBatchDetails
             "mentor" => "",
             "location" => ["country"=>"india"],
             "mock_interview" => 1,
-            "course_session_details" => [
-                "modules" => [
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [
-                            [
-                                "date" => static::session1(),
-                                "status" => "pending",
-                                "time" => "12:00"
-                            ],
-
-                        ]
-                    ],
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [[
-                            "date" => static::session2(),
-                            "status" => "pending",
-                            "time" => "12:00"]]
-                    ]]
-            ]
+            "modules" => [
+                [
+                    "module_name" => "Map reduce",
+                ],
+                [
+                    "module_name" => "Map reduce",
+                ]
+            ],
+            "session_list" => [
+                [
+                    "date" => static::session1(),
+                    "status" => "pending",
+                    "time" => "12:00"
+                ],
+                [
+                    "date" => static::session2(),
+                    "status" => "pending",
+                    "time" => "12:00"
+                ]
+            ],
         ];
     }
 
@@ -233,31 +255,24 @@ class DefaultBatchDetails
     public static function getStartDateChange()
     {
         return [
-            "course_session_details" => [
-                "modules" => [
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [
-                            [
-                                "heading" => "Introduction to MapReduce",
-                                "date"  =>static::session1()
-
-                            ]
-                        ]
-                    ],
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [
-                            [
-                                "heading" => "Introduction to MapReduce",
-                                "date"  =>static::session2()
-
-                            ]
-                        ]
-                    ]
+            "modules" => [
+                [
+                    "module_name" => "Map reduce",
+                ],
+                [
+                    "module_name" => "Map reduce",
                 ]
-
-            ]
+            ],
+            "session_list" => [
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "date"  =>static::session1()
+                ],
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "date"  =>static::session2()
+                ]
+            ],
         ];
     }
 
@@ -267,9 +282,7 @@ class DefaultBatchDetails
 
                 "session_heading" => "hadoop extra session",
                 "session_topics" =>["sdfs","dsfd"],
-//                "after_session_id" => "81fa3ceb-c8d1-4638-b999-a1afaf3d60e1",
                 "requested_by"=> "525a6982-28f3-4892-ac30-445454545",
-                "module_id" => "525a6982-28f3-4892-ac30-123abd6e8f99"
 
         ];
     }
@@ -277,58 +290,30 @@ class DefaultBatchDetails
     public static function extraSessionUpdated()
     {
         return [
-            "course_session_details" => [
-                "modules" => [
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [
-                            [
-                                "heading" => "Introduction to MapReduce",
-                                "topics" => "what is map reduce",
-                                "materials" => "",
-                                "assignments" => "",
-                                "projects" => "",
-                                "reference_materials" => "",
-                                "mentors" => "",
-                                "meeting" => "",
-                                "students" => "",
-                                "cancellation" => "",
-                                "time" => "12:00",
-                                "date" => static::session1()
-                            ],
-                            [
-                                "heading" => "hadoop extra session",
-                                "topics" => ["sdfs","dsfd"],
-                                "requested_by" => "525a6982-28f3-4892-ac30-445454545",
-                                "session_date" => "",
-                                "time" => "12:00",
-                                "date" => static::session1()
-                            ]
-
-                        ]
-                    ],
-                    [
-                        "module_name" => "Map reduce",
-                        "session_list" => [
-                            [
-                                "heading" => "Introduction to MapReduce",
-                                "topics" => "what is map reduce",
-                                "materials" => "",
-                                "assignments" => "",
-                                "projects" => "",
-                                "reference_materials" => "",
-                                "mentors" => "",
-                                "meeting" => "",
-                                "students" => "",
-                                "cancellation" => "",
-                                "time" => "12:00",
-                                "date" => static::session2()
-                            ]
-                        ]
-                    ]
+            "modules" => [
+                [
+                    "module_name" => "Map reduce",
+                ],
+                [
+                    "module_name" => "Map reduce",
                 ]
-
+            ],
+            "session_list" => [
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "date"  =>static::session1()
+                ],
+                [
+                    "heading" => "Introduction to MapReduce",
+                    "date"  =>static::session2()
+                ],
+                [
+                    "heading" => "hadoop extra session",
+                    "topic" => ["sdfs","dsfd"],
+                    "date"  =>static::session3()
+                ]
             ]
+
         ];
     }
 }

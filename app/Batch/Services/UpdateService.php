@@ -83,6 +83,7 @@ class UpdateService
         $extra_session=[];
         $i=0;
         $sessionlist = collect($batch['session_list']);
+        info($sessionlist);
         $after_session = null;
         $sessions_array = null;
         if($data->has("after_session_id")){
@@ -97,6 +98,7 @@ class UpdateService
             $sessions_array = $sessionlist;
         }else{
             $after_session = $sessionlist->last();
+            info($after_session);
         }
         if($after_session){
             $week_day = $weekMap[Carbon::parse($after_session['date'])->dayOfWeek];

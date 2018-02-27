@@ -35,7 +35,7 @@ class BatchHelpers
                 $sessions['time'] = $days[$i]['time'];
             }
             $sessions['status'] = "pending";
-            $sessions['meeting'] = "";
+            $sessions['meeting'] = [];
             $sessions['mentor'] = array_key_exists("mentor", $sessions) ? ($sessions['mentor'] != $mentor) ? $mentor : $sessions['mentor'] : $mentor;
             $sessions['_id'] = getUuid();
             $i++;

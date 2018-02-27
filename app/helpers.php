@@ -17,8 +17,8 @@ function resError($data = ["message" => "Something went wrong"], $status = 500){
 }
 
 function getUuid(){
-    if(env("APP_ENV") == "testing"){
+    /*if(env("APP_ENV") == "testing"){
         return "123-456-789";
-    }
+    }*/
     return Uuid::uuid4()->toString();
 }

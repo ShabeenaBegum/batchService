@@ -76,8 +76,8 @@ class UpdationTest extends TestCase
     public function test_to_not_change_course_plan_id_if_no_course_session_details_passed()
     {
         $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data,["course_plan_id"=>"1122","start_date"=>$this->today_date,"status"=>"yet_to_start"]));
-        $res = $this->json('PUT','/api/batch/'.$create_batch->decodeResponseJson()['data']['_id'],                          array_merge($this->update_data,["course_plan_id"=>"1124","course_session_details"=>""]));
-        $res->assertJsonValidationErrors(['course_session_details']);
+        $res = $this->json('PUT','/api/batch/'.$create_batch->decodeResponseJson()['data']['_id'],                          array_merge($this->update_data,["course_plan_id"=>"1124","modules"=>"","session_list"=>""]));
+        $res->assertJsonValidationErrors(['modules','session_list']);
     }
 
     public function test_to_check_start_date_change()
@@ -90,11 +90,9 @@ class UpdationTest extends TestCase
     public function test_check_extra_session_updated()
     {
         $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
-        dump($create_batch->decodeResponseJson());
+//        dump($create_batch->decodeResponseJson());
         $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session));
-            //["module_id"=>$create_batch->decodeResponseJson()['data']['course_session_details']['modules'][0]['_id'],"after_session_id"=>$create_batch->decodeResponseJson()['data']['course_session_details']['modules'][0]['session_list'][0]['_id']]));
-//        dump($create_batch->decodeResponseJson()['data']); "after_session_id"=>$create_batch->decodeResponseJson()['data']['course_session_details']['modules'][0]['session_list'][0]['_id']+
-        dump($res->content());
-        $res->assertJson(["data"=>$this->extra_session_updated]);
+
+        $res->assertJson(["data"=> $this->extra_session_updated]);
     }
 }
