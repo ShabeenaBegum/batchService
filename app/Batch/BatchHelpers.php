@@ -54,7 +54,7 @@ class BatchHelpers
     public static function shift_key($array, $key){
         $index = array_search($key, $array);
         if($index){
-            list($first, $second) = split_array($array, $index);
+            list($first, $second) = static::split_array($array, $index);
             return array_merge($second, $first);
         }
         return $array;
