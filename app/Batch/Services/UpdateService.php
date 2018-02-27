@@ -126,13 +126,11 @@ class UpdateService
             }
             $new_days = BatchHelpers::shift_key($batch['days'],$batch['days'][$j]);
             $new_start_date = Carbon::parse($extra_session['date'])->modify("this " . $batch['days'][$j]['day'])->format("Y-m-d");
-            $day_index = array_search('friday', $batch['days']);
             foreach ($batch['session_list'] as $index => $sessions)
             {
                 if($sessions['_id'] == $after_session['_id'])
                 {
                     $after_session = BatchHelpers::split_array($batch['session_list'], $index+1);
-//                    return $after_session;
                     $after_session_collection = collect($after_session[0])->push($extra_session);
                     $after_session_array = BatchHelpers::getSessions($after_session[1],  $new_start_date, $new_days, null, $batch['days'][$j+1]['day']);
                    break;

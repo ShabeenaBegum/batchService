@@ -53,19 +53,19 @@ class DefaultBatchDetails
             "reference_sem_name" => "",
             "modules" => [
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce1",
                     "_id" => getUuid()
 
                 ],
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce2",
                     "_id" => getUuid()
                 ]
             ],
             "session_list" => [
                 [
-                    "heading" => "Introduction to MapReduce",
-                    "topics" => "what is map reduce",
+                    "heading" => "Introduction to MapReduce1",
+                    "topics" => ["what is map reduce",""],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -77,8 +77,8 @@ class DefaultBatchDetails
                     "module_id" => getUuid()
                 ],
                 [
-                    "heading" => "Introduction to MapReduce",
-                    "topics" => "what is map reduce",
+                    "heading" => "Introduction to MapReduce2",
+                    "topics" => ["what is map reduce",""],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -103,17 +103,17 @@ class DefaultBatchDetails
             "course_plan_id" => "1112",
             "modules" => [
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce1",
 
                 ],
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce2",
                 ]
             ],
             "session_list" => [
                 [
-                    "heading" => "Introduction to MapReduce",
-                    "topics" => "what is map reduce",
+                    "heading" => "Introduction to MapReduce1",
+                    "topics" => ["what is map reduce",""],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -126,8 +126,8 @@ class DefaultBatchDetails
                     "time" => "12:00"
                 ],
                 [
-                    "heading" => "Introduction to MapReduce",
-                    "topics" => "what is map reduce",
+                    "heading" => "Introduction to MapReduce2",
+                    "topics" => ["what is map reduce",""],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -165,17 +165,17 @@ class DefaultBatchDetails
             "course_plan_id"  => '1122',
             "modules" => [
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce1",
 
                 ],
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce2",
                 ]
             ],
             "session_list" => [
                 [
-                    "heading" => "Introduction to MapReduce",
-                    "topics" => "what is map reduce",
+                    "heading" => "Introduction to MapReduce1",
+                    "topics" => ["what is map reduce",""],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -188,8 +188,8 @@ class DefaultBatchDetails
                     "time" => "12:00"
                 ],
                 [
-                    "heading" => "Introduction to MapReduce",
-                    "topics" => "what is map reduce",
+                    "heading" => "Introduction to MapReduce2",
+                    "topics" => ["what is map reduce",""],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -217,10 +217,10 @@ class DefaultBatchDetails
             "mock_interview" => 1,
             "modules" => [
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce1",
                 ],
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce2",
                 ]
             ],
             "session_list" => [
@@ -257,19 +257,19 @@ class DefaultBatchDetails
         return [
             "modules" => [
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce1",
                 ],
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce2",
                 ]
             ],
             "session_list" => [
                 [
-                    "heading" => "Introduction to MapReduce",
+                    "heading" => "Introduction to MapReduce1",
                     "date"  =>static::session1()
                 ],
                 [
-                    "heading" => "Introduction to MapReduce",
+                    "heading" => "Introduction to MapReduce2",
                     "date"  =>static::session2()
                 ]
             ],
@@ -292,19 +292,19 @@ class DefaultBatchDetails
         return [
             "modules" => [
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce1",
                 ],
                 [
-                    "module_name" => "Map reduce",
+                    "module_name" => "Map reduce2",
                 ]
             ],
             "session_list" => [
                 [
-                    "heading" => "Introduction to MapReduce",
+                    "heading" => "Introduction to MapReduce1",
                     "date"  =>static::session1()
                 ],
                 [
-                    "heading" => "Introduction to MapReduce",
+                    "heading" => "Introduction to MapReduce2",
                     "date"  =>static::session2()
                 ],
                 [
@@ -316,4 +316,65 @@ class DefaultBatchDetails
 
         ];
     }
+
+    public static function extraSessionUpdatedAfterSession()
+    {
+        return[
+            "modules" => [
+                [
+                    "module_name" => "Map reduce1",
+                ],
+                [
+                    "module_name" => "Map reduce2",
+                ]
+            ],
+            "session_list" => [
+                [
+                    "heading" => "Introduction to MapReduce1",
+                    "date"  =>static::session1()
+                ],
+                [
+                    "heading" => "hadoop extra session",
+                    "topic" => ["sdfs","dsfd"],
+                    "date"  =>static::session2()
+                ],
+                [
+                    "heading" => "Introduction to MapReduce2",
+                    "date"  =>static::session3()
+                 ],
+            ]
+        ];
+    }
+
+    public static function extraSessionUpdatedWithDate()
+    {
+        return[
+            "modules" => [
+                [
+                    "module_name" => "Map reduce1",
+                ],
+                [
+                    "module_name" => "Map reduce2",
+                ]
+            ],
+            "session_list" => [
+                [
+                    "heading" => "Introduction to MapReduce1",
+                    "date"  =>static::session1()
+                ],
+                [
+                    "heading" => "Introduction to MapReduce2",
+                    "date"  =>static::session2()
+                ],
+                [
+                    "heading" => "hadoop extra session",
+                    "topic" => ["sdfs","dsfd"],
+                    "date"  => "2018-03-30",
+                    "time"  => "12:00"
+                ],
+
+            ]
+        ];
+    }
+
 }

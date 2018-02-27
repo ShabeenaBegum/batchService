@@ -31,6 +31,8 @@ class UpdationTest extends TestCase
         $this->today_date = Carbon::parse("this thursday")->format("Y-m-d");
         $this->extra_session = DefaultBatchDetails::extraSessionDetails();
         $this->extra_session_updated = DefaultBatchDetails::extraSessionUpdated();
+        $this->extra_session_updated_after_session = DefaultBatchDetails::extraSessionUpdatedAfterSession();
+        $this->extra_session_updated_with_date = DefaultBatchDetails::extraSessionUpdatedWithDate();
     }
 
     /**
@@ -90,9 +92,24 @@ class UpdationTest extends TestCase
     public function test_check_extra_session_updated()
     {
         $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
-//        dump($create_batch->decodeResponseJson());
         $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session));
 
         $res->assertJson(["data"=> $this->extra_session_updated]);
+    }
+
+    public function test_check_extra_session_update_with_after_session_id()
+    {
+        $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
+        $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session,["after_session_id" =>$create_batch->decodeResponseJson()['data']['session_list'][0]['_id']]));
+
+        $res->assertJson(["data"=> $this->extra_session_updated_after_session]);
+    }
+
+    public function test_check_extra_session_update_with_given_date_time()
+    {
+        $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
+        $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session,["session_date"=>"2018-03-30", "session_time"=>"12:00"]));
+
+        $res->assertJson(["data"=> $this->extra_session_updated_with_date]);
     }
 }
