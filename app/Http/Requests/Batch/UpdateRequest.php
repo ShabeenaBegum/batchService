@@ -26,11 +26,11 @@ class UpdateRequest extends FormRequest
     {
         return [
 //            '_id' => 'bail|required',
-            'course_plan_id' => 'required',
+
             'start_date' => 'sometimes|date|after_or_equal:today',
             'status'  => ['required',
                 Rule::in(['pending', 'completed','yet_to_start'])],
-            'mentor' => 'sometimes|nullable|string',
+            'mentor' => 'sometimes|nullable|array',
             'days.day' => 'sometimes|required_with:days.time',
             'days.time' => 'sometimes|required_with:days.day',
             'location.city' => 'required_if:mode_of_training,offline',
@@ -39,7 +39,7 @@ class UpdateRequest extends FormRequest
                 Rule::in(['available', 'seats_filling_fast','already_full','moderately_full'])],
             'mock_interview' => 'required',
             'mode_of_training' =>'required',
-            'course_plan_id' => [
+            'course_plan_id' => ['required',
                 function($attribute, $value, $fail) {
                     if ($value != $this->batch['course_plan_id']) {
 
@@ -50,7 +50,7 @@ class UpdateRequest extends FormRequest
                 }
             ],
             'modules' => 'required_with:course_plan_id|array',
-            'session_list' => 'required_with:course_plan_id|array'
+            'sessions' => 'required_with:course_plan_id|array'
 
         ];
     }

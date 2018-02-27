@@ -10,14 +10,23 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UpdationTest extends TestCase
 {
-    public $user;
-    public $update_data;
-    public $updated_data;
-    public $create_data;
-    public $batch_structure;
-    public $today_date;
+
+    private $create_data;
+    private $user;
+    private $update_data;
+    private $course_plan_update_data;
+    private $update_date_changes;
+    private $batch_structure;
+    private $today_date;
+    private $extra_session;
+    private $extra_session_updated;
+    private $extra_session_updated_after_session;
+    private $extra_session_updated_with_date;
+    private $updated_data;
+
     protected function setUp()
     {
+        
         parent::setUp();
 //        $this->withoutExceptionHandling();
         $this->user = factory(User::class)->create();
@@ -44,9 +53,11 @@ class UpdationTest extends TestCase
     public function test_if_updates_batch()
     {
         $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data,["course_plan_id"=>"1122","start_date"=>$this->today_date,"status"=>"yet_to_start"]));
+
         $create_batch->assertStatus(201);
         $res = $this->json('PUT','/api/batch/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->update_data, ["course_plan_id"=>"1122",$this->today_date]));
-        $res->assertStatus(200)->assertJson(["success" => true,
+        $res->assertStatus(200)
+            ->assertJson(["success" => true,
             "data" =>$this->updated_data]);
     }
 
@@ -78,8 +89,8 @@ class UpdationTest extends TestCase
     public function test_to_not_change_course_plan_id_if_no_course_session_details_passed()
     {
         $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data,["course_plan_id"=>"1122","start_date"=>$this->today_date,"status"=>"yet_to_start"]));
-        $res = $this->json('PUT','/api/batch/'.$create_batch->decodeResponseJson()['data']['_id'],                          array_merge($this->update_data,["course_plan_id"=>"1124","modules"=>"","session_list"=>""]));
-        $res->assertJsonValidationErrors(['modules','session_list']);
+        $res = $this->json('PUT','/api/batch/'.$create_batch->decodeResponseJson()['data']['_id'],                          array_merge($this->update_data,["course_plan_id"=>"1124","modules"=>"","sessions"=>""]));
+        $res->assertJsonValidationErrors(['modules','sessions']);
     }
 
     public function test_to_check_start_date_change()
@@ -93,7 +104,6 @@ class UpdationTest extends TestCase
     {
         $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
         $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session));
-
         $res->assertJson(["data"=> $this->extra_session_updated]);
     }
 

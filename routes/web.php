@@ -1,24 +1,15 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
+use App\Batch\Models\Batch;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get("test", function(){
-//     $user = \App\User::first();
-//     $user->notify(new \App\Notifications\Test("hello"));
-// });
+ Route::get("test", function(){
+     return Batch::first();
+ });
 Route::view("passport", "passport");
 
 Auth::routes();

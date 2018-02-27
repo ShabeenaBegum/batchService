@@ -25,7 +25,7 @@ class UpdateService
         $batch_data->location           = $data ['location'];
         if(isset($data['course_plan_id'])){
             if(($batch_data->course_plan_id != $data ['course_plan_id']) ||($batch_data->start_date != $data ['start_date']) ){
-                $session_list = $data['session_list'];
+                $session_list = $data['sessions'];
                 if(($batch_data->start_date != $data ['start_date'])&&($batch_data->course_plan_id != $data ['course_plan_id'])) {
                     $batch_data->start_date = $data['start_date'];
                     $start_date = $data['start_date'];
@@ -40,7 +40,7 @@ class UpdateService
                     $start_date = $data['start_date'];
                 }
                 $updated_date = BatchHelpers::getSessions($session_list,$start_date,$batch_data->days,$batch_data->mentor);
-                $batch_data['session_list'] = $updated_date;
+                $batch_data['sessions'] = $updated_date;
             }
         }
         $batch_data->updated_by = auth()->user()->_id;

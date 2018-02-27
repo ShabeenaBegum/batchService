@@ -38,7 +38,7 @@ class DefaultBatchDetails
             "mode_of_training" => "offline",
             "batch_urgency" => "seats_filling_fast",
             "location" => ["country" => "india", "city" => "bangalore"],
-            "mentor" => "",
+            "mentor" => [],
             "days" => [
                 [
                     "day" => "thursday",
@@ -62,10 +62,10 @@ class DefaultBatchDetails
                     "_id" => getUuid()
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "heading" => "Introduction to MapReduce1",
-                    "topics" => ["what is map reduce",""],
+                    "topics" => ["what is map reduce"],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -78,7 +78,7 @@ class DefaultBatchDetails
                 ],
                 [
                     "heading" => "Introduction to MapReduce2",
-                    "topics" => ["what is map reduce",""],
+                    "topics" => ["what is map reduce"],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -110,10 +110,10 @@ class DefaultBatchDetails
                     "module_name" => "Map reduce2",
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "heading" => "Introduction to MapReduce1",
-                    "topics" => ["what is map reduce",""],
+                    "topics" => ["what is map reduce"],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -127,7 +127,7 @@ class DefaultBatchDetails
                 ],
                 [
                     "heading" => "Introduction to MapReduce2",
-                    "topics" => ["what is map reduce",""],
+                    "topics" => ["what is map reduce"],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -157,7 +157,7 @@ class DefaultBatchDetails
             "start_date" => static::today_date(),
             "course_id" => 1,
             "batch_urgency" => "seats_filling_fast",
-            "mentor" => "",
+            "mentor" => [],
             "status" => "yet_to_start",
             "location" => ["country"=>"india"],
             "mock_interview" => 1,
@@ -172,10 +172,10 @@ class DefaultBatchDetails
                     "module_name" => "Map reduce2",
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "heading" => "Introduction to MapReduce1",
-                    "topics" => ["what is map reduce",""],
+                    "topics" => ["what is map reduce"],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -189,7 +189,7 @@ class DefaultBatchDetails
                 ],
                 [
                     "heading" => "Introduction to MapReduce2",
-                    "topics" => ["what is map reduce",""],
+                    "topics" => ["what is map reduce"],
                     "materials" => [],
                     "assignments" => [],
                     "projects" => [],
@@ -212,7 +212,7 @@ class DefaultBatchDetails
             "start_date" => static::today_date(),
             "course_id" => 1,
             "batch_urgency" => "seats_filling_fast",
-            "mentor" => "",
+            "mentor" => [],
             "location" => ["country"=>"india"],
             "mock_interview" => 1,
             "modules" => [
@@ -223,7 +223,7 @@ class DefaultBatchDetails
                     "module_name" => "Map reduce2",
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "date" => static::session1(),
                     "status" => "pending",
@@ -245,7 +245,7 @@ class DefaultBatchDetails
             "start_date" => static::today_date(),
             "course_id" => 1,
             "batch_urgency" => "seats_filling_fast",
-            "mentor" => "",
+            "mentor" => [],
             "location" => ["country"=>"india"],
             "mock_interview" => 1,
             "course_plan_id" => "1124"
@@ -263,7 +263,7 @@ class DefaultBatchDetails
                     "module_name" => "Map reduce2",
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "heading" => "Introduction to MapReduce1",
                     "date"  =>static::session1()
@@ -298,7 +298,7 @@ class DefaultBatchDetails
                     "module_name" => "Map reduce2",
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "heading" => "Introduction to MapReduce1",
                     "date"  =>static::session1()
@@ -328,7 +328,7 @@ class DefaultBatchDetails
                     "module_name" => "Map reduce2",
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "heading" => "Introduction to MapReduce1",
                     "date"  =>static::session1()
@@ -357,7 +357,7 @@ class DefaultBatchDetails
                     "module_name" => "Map reduce2",
                 ]
             ],
-            "session_list" => [
+            "sessions" => [
                 [
                     "heading" => "Introduction to MapReduce1",
                     "date"  =>static::session1()

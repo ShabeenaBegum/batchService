@@ -17,6 +17,7 @@ class CreationTest extends TestCase
     {
         parent::setUp();
         //$this->withoutExceptionHandling();
+        $this->refreshDataBase();
         $this->user = factory(User::class)->create();
         $this->batch_details = DefaultBatchDetails::getBatch();
         $this->batch_structure = DefaultBatchDetails::getBatchStructure();

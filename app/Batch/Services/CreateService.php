@@ -2,25 +2,25 @@
 
 namespace App\Batch\Services;
 
-use App\Batch;
 use App\Batch\BatchHelpers;
-use Carbon\Carbon;
+use App\Batch\Models\Batch;
 
-
-/**
- *
- */
 class CreateService
 {
     public function handle($data)
     {
         $data ['batch_name'] = $data ['start_date'];
-        $data['session_list'] = BatchHelpers::getSessions(
-            $data['session_list'],
+        $sessionList = BatchHelpers::getSessions(
+            $data['sessions'],
             $data['start_date'],
             $data['days'],
             $data['mentor']);
-        return Batch::create($data);
+        unset($data['sessions']);
+        $batch =  Batch::create($data);
+        foreach ($sessionList as $session){
+            $batch->sessions()->create($session);
+        }
+        return $batch;
     }
 
 }

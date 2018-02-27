@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Batch;
+use App\Batch\Models\Batch;
 use App\Batch\Services\CreateService;
 use App\Batch\Services\UpdateService;
 use App\Http\Requests\Batch\CreateRequest;
@@ -111,7 +111,6 @@ class BatchController extends Controller
         try {
             return resOk((new UpdateService())->updateStatus($request->all(),$batch));
         } catch (Exception $e) {
-            return ($e);
             return resError();
         }
     }

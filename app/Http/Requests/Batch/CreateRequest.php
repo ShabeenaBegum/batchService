@@ -34,7 +34,7 @@ class CreateRequest extends FormRequest
             'location.country' => 'required',
             'start_date' => 'required|date|after_or_equal:today',
             'duration' => 'required|integer',
-            'mentor' => 'nullable|string',
+            'mentor' => 'nullable|array',
             'days' => 'required|array',
             'batch_reference_name' => 'nullable',
             'reference_sem_name'   => 'nullable',
