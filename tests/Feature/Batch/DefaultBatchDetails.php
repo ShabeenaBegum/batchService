@@ -333,15 +333,16 @@ class DefaultBatchDetails
                     "heading" => "Introduction to MapReduce1",
                     "date"  =>static::session1()
                 ],
+
+                [
+                    "heading" => "Introduction to MapReduce2",
+                    "date"  =>static::session3()
+                 ],
                 [
                     "heading" => "hadoop extra session",
                     "topic" => ["sdfs","dsfd"],
                     "date"  =>static::session2()
                 ],
-                [
-                    "heading" => "Introduction to MapReduce2",
-                    "date"  =>static::session3()
-                 ],
             ]
         ];
     }

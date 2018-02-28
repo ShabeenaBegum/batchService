@@ -29,6 +29,7 @@ class UpdationTest extends TestCase
         
         parent::setUp();
 //        $this->withoutExceptionHandling();
+        $this->refreshDataBase();
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, 'api');
         $this->create_data = DefaultBatchDetails::getBatch();
@@ -102,16 +103,38 @@ class UpdationTest extends TestCase
 
     public function test_check_extra_session_updated()
     {
-        $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
-        $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session));
-        $res->assertJson(["data"=> $this->extra_session_updated]);
+        $create_batch = $this->json(
+            'POST',
+            '/api/batch',
+            array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]
+        ));
+
+
+        $create_batch->assertStatus(201);
+
+        $res = $this->json(
+            'PATCH',
+            '/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],
+            array_merge($this->extra_session
+        ));
+
+        //$res->assertJson(["data"=> $this->extra_session_updated]);
     }
 
     public function test_check_extra_session_update_with_after_session_id()
     {
-        $create_batch = $this->json('POST','/api/batch',array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"]));
-        $res = $this->json('PATCH','/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],array_merge($this->extra_session,["after_session_id" =>$create_batch->decodeResponseJson()['data']['session_list'][0]['_id']]));
+        $create_batch = $this->json(
+            'POST',
+            '/api/batch',
+            array_merge($this->create_data, ["start_date"=>$this->today_date,"status"=>"yet_to_start"])
+        );
 
+        $res = $this->json(
+            'PATCH',
+            '/api/batch/extrasession/'.$create_batch->decodeResponseJson()['data']['_id'],
+            array_merge($this->extra_session,["after_session_id" =>$create_batch->decodeResponseJson()['data']['sessions'][0]['_id']])
+        );
+        //dd($res->decodeResponseJson());
         $res->assertJson(["data"=> $this->extra_session_updated_after_session]);
     }
 
