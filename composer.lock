@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "17d0170985fc8cda379c7be27bd66f15",
+    "content-hash": "0ec42af227b5d558a3b6a38a9ccef6de",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -944,12 +944,12 @@
             "time": "2018-02-27T14:02:09+00:00"
         },
         {
-            "name": "laravel/passport",
-            "version": "dev-master",
+            "name": "laravel/passport-ag",
+            "version": "9999999-dev",
             "dist": {
                 "type": "path",
                 "url": "./packages/laravel-passport",
-                "reference": "6fb51cb8bb1e0ffdebbc480e8e8055432584e188",
+                "reference": "125b1e2bfbc620535c140797f932465a6328f404",
                 "shasum": null
             },
             "require": {
