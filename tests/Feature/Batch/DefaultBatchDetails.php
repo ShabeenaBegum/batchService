@@ -378,4 +378,74 @@ class DefaultBatchDetails
         ];
     }
 
+    public static function sessionCancelUpdated()
+    {
+        return [
+            "sessions" => [
+                [
+                    "status" =>"cancel",
+                    "date"  =>static::session2(),
+                    "cancellation" => [
+                        [
+                           "requested_by" => "1234-343",
+                           "approved_by" => "1234-343",
+                           "reason" => "No Mentor",
+                        ]
+                    ],
+                ],
+                [
+                    "date"  =>static::session3()
+                ],
+
+            ]
+        ];
+    }
+
+    public static function sessionCancelUpdatedNoDateChange()
+    {
+        return [
+            "sessions" => [
+                [
+                    "status" =>"cancel",
+                    "date"  =>static::session1(),
+                    "cancellation" => [
+                        [
+                            "requested_by" => "1234-343",
+                            "approved_by" => "1234-343",
+                            "reason" => "No Mentor",
+                        ]
+                    ],
+                ],
+                [
+                    "date"  =>static::session2()
+                ],
+
+            ]
+        ];
+    }
+
+    public static function sessionCancelUpdatedWithDateGiven()
+    {
+        return [
+            "sessions" => [
+                [
+                    "status" =>"cancel",
+                    "date"  =>"2018-03-30",
+                    "time"  =>"12:00",
+                    "cancellation" => [
+                        [
+                            "requested_by" => "1234-343",
+                            "approved_by" => "1234-343",
+                            "reason" => "No Mentor",
+                        ]
+                    ],
+                ],
+                [
+                    "date"  =>static::session2()
+                ],
+
+            ]
+        ];
+    }
+
 }

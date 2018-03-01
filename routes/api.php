@@ -26,9 +26,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('user/profile', 'HomeController@index');
 
 });
-Route::patch('batch/status/{batch}', 'BatchController@BatchStatusChange');
+Route::patch('batch/status/{batch}', 'BatchController@BatchStatusChange')->name('batch.status');
 
-Route::patch('batch/extrasession/{batch}', 'BatchController@BatchExtraSession');
+Route::patch('batch/extrasession/{batch}', 'BatchController@BatchExtraSession')->name('batch.extrasession');
 
 Route::apiResource('batch', 'BatchController');
+
+Route::apiResource('session', 'SessionController');
 

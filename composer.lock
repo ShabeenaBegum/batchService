@@ -945,11 +945,11 @@
         },
         {
             "name": "laravel/passport-ag",
-            "version": "9999999-dev",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "./packages/laravel-passport",
-                "reference": "125b1e2bfbc620535c140797f932465a6328f404",
+                "reference": "4424c262a4f0853a8c52cccc6e233d4002b076b8",
                 "shasum": null
             },
             "require": {

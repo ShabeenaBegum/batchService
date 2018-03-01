@@ -49,8 +49,10 @@ class UpdateService
         $type['by'] = $data['by'];
         $type['reason'] = $data['reason'];
         info(gettype($batch['cancel']));
-        $cancels = $batch['cancel'];
-        $cancels[] = $type;
+        if(isset($batch['cancel'])){
+            $cancels = $batch['cancel'];
+        }
+        $batch['cancel'] = $cancels[] = $type;
         $batch->save();
         return $batch;
     }
