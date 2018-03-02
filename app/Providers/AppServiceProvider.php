@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -15,6 +16,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Passport::routes();
+
+//        \DB::connection()->enableQueryLog();
+//        \DB::listen(function ($query) {
+//            Storage::append('query.txt', $query->sql);
+//        });
     }
 
     /**

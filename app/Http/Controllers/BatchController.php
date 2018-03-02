@@ -102,25 +102,21 @@ class BatchController extends Controller
     /**
      * @param Request $request
      * @param Batch $batch
-     * @param UpdateService $service
      * @return \Illuminate\Http\JsonResponse
      */
     public function BatchStatusChange(Request $request, Batch $batch, UpdateService $service)
     {
-        $this->validate($request, [
-            'type' => ['required', Rule::in(['cancel', 'active', 'inactive'])],
+        $this->validate($request, ['type' => ['required', Rule::in(['cancel', 'active', 'inactive'])],
             'by' => 'required',
-            'reason' => 'required']
-        );
-
+            'reason' => 'required']);
         try {
-            return resOk($service->updateStatus($request->all(), $batch));
+            return resOk($s->updateStatus($request->all(), $batch));
         } catch (Exception $e) {
             return resError();
         }
     }
 
-    public function BatchExtraSession(Request $request, Batch $batch, ExtraSession $service)
+    public function BatchExtraSession(Request $request, Batch $batch)
     {
         $this->validate($request, [
             'session_heading' => 'required',
@@ -132,7 +128,7 @@ class BatchController extends Controller
         ]);
 
         try {
-            return resOk($service->handle($request, $batch));
+            return resOk((new ExtraSession())->handle($request, $batch));
         } catch (Exception $e) {
             return resError(["message" => $e->getMessage()]);
         }

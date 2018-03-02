@@ -23,12 +23,15 @@ Route::middleware('auth:api')->group(function () {
         return resOk($request->user());
     });
 
-    Route::get('user/profile', 'HomeController@index');
+    Route::get('/user/profile', 'HomeController@index');
 
 });
-Route::patch('batch/status/{batch}', 'BatchController@BatchStatusChange');
+//
+require 'batch.php';
 
-Route::patch('batch/extrasession/{batch}', 'BatchController@BatchExtraSession');
+Route::apiResource('enroll.batches', 'StudentBatchController');
 
-Route::apiResource('batch', 'BatchController');
+require 'session-status.php';
+
+require 'attendance.php';
 
