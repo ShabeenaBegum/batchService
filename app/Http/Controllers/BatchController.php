@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Batch\Models\Batch;
 use App\Batch\Services\CreateService;
 use App\Batch\Services\ExtraSession;
+use App\Batch\Services\StatusChangeService;
 use App\Batch\Services\UpdateService;
 use App\Http\Requests\Batch\CreateRequest;
 use App\Http\Requests\Batch\UpdateRequest;
@@ -131,6 +132,29 @@ class BatchController extends Controller
             return resOk((new ExtraSession())->handle($request, $batch));
         } catch (Exception $e) {
             return resError(["message" => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param Batch $batch
+     * @param StatusChangeService $service
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function SessionCancel(Request $request, Batch $batch, StatusChangeService $service)
+    {
+        $this->validate($request, [
+            'session_id' => 'required',
+            'change_date' => 'required|boolean',
+            'requested_by' => 'sometimes',
+            'approved_by' => 'required',
+            'reason' => 'required'
+        ]);
+
+        try {
+            return resOk($service->handle($request, $batch));
+        } catch (Exception $e) {
+            return $e;
         }
     }
 

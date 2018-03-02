@@ -23,7 +23,7 @@ class DefaultBatchDetails
         return Carbon::parse("this thursday")->modify("this saturday")->format("Y-m-d");
     }
     public static function  session3(){
-        return Carbon::today()->modify("this saturday")->modify("this thursday")->format("Y-m-d");
+        return Carbon::today()->modify("this thursday")->modify("this saturday")->modify("this thursday")->format("Y-m-d");
     }
 
 
@@ -372,6 +372,76 @@ class DefaultBatchDetails
                     "topic" => ["sdfs","dsfd"],
                     "date"  => "2018-03-30",
                     "time"  => "12:00"
+                ],
+
+            ]
+        ];
+    }
+
+    public static function sessionCancelUpdated()
+    {
+        return [
+            "sessions" => [
+                [
+                    "status" =>"cancel",
+                    "date"  =>static::session2(),
+                    "cancellation" => [
+                        [
+                           "requested_by" => "1234-343",
+                           "approved_by" => "1234-343",
+                           "reason" => "No Mentor",
+                        ]
+                    ],
+                ],
+                [
+                    "date"  =>static::session3()
+                ],
+
+            ]
+        ];
+    }
+
+    public static function sessionCancelUpdatedNoDateChange()
+    {
+        return [
+            "sessions" => [
+                [
+                    "status" =>"cancel",
+                    "date"  =>static::session1(),
+                    "cancellation" => [
+                        [
+                            "requested_by" => "1234-343",
+                            "approved_by" => "1234-343",
+                            "reason" => "No Mentor",
+                        ]
+                    ],
+                ],
+                [
+                    "date"  =>static::session2()
+                ],
+
+            ]
+        ];
+    }
+
+    public static function sessionCancelUpdatedWithDateGiven()
+    {
+        return [
+            "sessions" => [
+                [
+                    "status" =>"cancel",
+                    "date"  =>"2018-03-30",
+                    "time"  =>"12:00",
+                    "cancellation" => [
+                        [
+                            "requested_by" => "1234-343",
+                            "approved_by" => "1234-343",
+                            "reason" => "No Mentor",
+                        ]
+                    ],
+                ],
+                [
+                    "date"  =>static::session2()
                 ],
 
             ]

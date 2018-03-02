@@ -26,7 +26,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user/profile', 'HomeController@index');
 
 });
-//
+
 require 'batch.php';
 
 Route::apiResource('enroll.batches', 'StudentBatchController');
@@ -34,4 +34,6 @@ Route::apiResource('enroll.batches', 'StudentBatchController');
 require 'session-status.php';
 
 require 'attendance.php';
+
+Route::apiResource('session', 'SessionController');
 
