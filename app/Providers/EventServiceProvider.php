@@ -16,6 +16,15 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Session\Completed' => [
             'App\Listeners\Session\CreateSessionEntry',
         ],
+        'App\Events\Batch\Created' => [
+            'App\Listeners\Batch\Create',
+        ],
+        'App\Events\Batch\ExtraSession' => [
+            'App\Listeners\Batch\ExtraSessionAdded',
+        ],
+        'App\Events\Session\Cancel' => [
+            'App\Listeners\Session\CancelNotify',
+        ],
     ];
 
     /**
