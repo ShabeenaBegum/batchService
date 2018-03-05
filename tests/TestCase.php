@@ -20,10 +20,10 @@ abstract class TestCase extends BaseTestCase
         $this->artisan('migrate:fresh');
     }
 
-    public function createBatch()
+    public function createBatch($overrides = [])
     {
         try {
-            return $this->json("POST", '/api/batch', DefaultBatchDetails::getBatch())
+            return $this->json("POST", '/api/batch', array_merge(DefaultBatchDetails::getBatch(), $overrides))
                 ->decodeResponseJson("data");
         } catch (\Exception $e) {
             return ["_id" => "NOT_CREATED"];

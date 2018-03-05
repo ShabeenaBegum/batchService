@@ -39,7 +39,7 @@ class SessionStatusTest extends TestCase
         //update a session
         $res = $this->json("POST", route("session.status.store", $session["_id"]));
         $res->assertStatus(201);
-        $res->assertJson(["data" => ["status" => "completed"]]);
+        $res->assertJson(["data" => ["status" => config('constant.session.status.completed')]]);
 
 
         //assert status is completed
@@ -47,7 +47,7 @@ class SessionStatusTest extends TestCase
         $res1->assertStatus(200);
         $res1->assertJson([
             "data" => [
-                "status" => "completed",
+                "status" => config('constant.session.status.completed'),
                 "_id"    => $batch['sessions'][0]["_id"]
             ]
         ]);

@@ -1,5 +1,6 @@
 <?php
 
+use MongoDB\BSON\UTCDateTime;
 use Ramsey\Uuid\Uuid;
 
 function resOk($data, $status = 200){
@@ -21,4 +22,12 @@ function getUuid(){
         return "123-456-789";
     }*/
     return Uuid::uuid4()->toString();
+}
+
+function utcnow($date = null)
+{
+    if ($date) {
+        return new UTCDateTime(\Carbon\Carbon::parse($date));
+    }
+    return new UTCDateTime(\Carbon\Carbon::now());
 }
