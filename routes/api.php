@@ -37,3 +37,5 @@ require 'attendance.php';
 
 Route::apiResource('session', 'SessionController');
 
+Route::apiResource('studentsession', 'StudentSessionController');
+
