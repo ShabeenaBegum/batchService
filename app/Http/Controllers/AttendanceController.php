@@ -2,83 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Student\Session\AttendanceMarked;
+use App\Student\Models\StudentBatch;
+use App\Student\Models\StudentSession;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index($enrollId, $sessionId)
     {
-        //
+        $studentBatch = StudentBatch::where("enroll_id", $enrollId)
+                                    ->where("sessions.session_id", $sessionId)->firstOrFail();
+        $session = $studentBatch->sessions->where("session_id", $sessionId)->first();
+        return resOk($session);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+    public function store(Request $request, $enrollId, $sessionId)
+    {
+        $studentBatch = StudentBatch::where("enroll_id", $enrollId)
+            ->where("sessions.session_id", $sessionId)->firstOrFail();
+        $session = $studentBatch->sessions->where("session_id", $sessionId)->first();
+        $session->attendance = strtoupper($request->get("attendance", config('constant.session.attendance.present')));
+        $session->attendance_date = utcnow();
+        $session->save();
+        event(new AttendanceMarked($session));
+        return resOk($session);
+    }
+
+    /*
+     * return attendance of all enrolls in the given session
      */
     public function session()
     {
-        //
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+    /*
+     * return attendance of all enrolls in the given batch
      */
-    public function store(Request $request)
+    public function batch()
     {
-        //
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+    /*
+     * return attendance of all enrolls in the given enroll id
      */
-    public function batch($id)
+    public function enroll()
     {
-        //
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

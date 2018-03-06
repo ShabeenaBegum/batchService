@@ -42,14 +42,15 @@ class SessionStatusController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     * @param $sessionId
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $sessionId)
     {
         $batch = Batch::where("sessions._id", $sessionId)->firstOrFail();
         $session = $batch->sessions->where("_id", $sessionId)->first();
-        $session->status = "completed";
+        $session->status = config('constant.session.status.completed');
         $session->save();
 
         event(new Completed($session));

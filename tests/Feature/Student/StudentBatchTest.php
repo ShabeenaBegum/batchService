@@ -18,7 +18,7 @@ class StudentBatchTest extends TestCase
     {
         parent::setUp();
         //$this->withoutExceptionHandling();
-        $this->refreshDataBase();
+        //$this->refreshDataBase();
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, 'api');
 

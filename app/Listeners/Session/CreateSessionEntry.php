@@ -34,7 +34,7 @@ class CreateSessionEntry
                 $enroll->sessions()->create([
                     "session_id" => $event->session->_id,
                     "session_status" => $event->session->status,
-                    "attendance" => "PENDING",
+                    "attendance" => config('constant.session.attendance.pending'),
                     "quiz" => [],
                     "assignments" => [],
                     "projects" => [],

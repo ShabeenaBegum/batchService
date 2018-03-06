@@ -16,6 +16,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Session\Completed' => [
             'App\Listeners\Session\CreateSessionEntry',
         ],
+        'App\Events\Student\Session\AttendanceMarked' => [
+            'App\Listeners\Student\Session\AttendanceMarked',
+        ],
+        'App\Events\Student\Batch\BatchTransferred' => [
+            'App\Listeners\Student\Batch\BatchTransferred',
         'App\Events\Batch\Created' => [
             'App\Listeners\Batch\Create',
         ],
