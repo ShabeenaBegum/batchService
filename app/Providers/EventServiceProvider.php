@@ -31,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Session\Cancel' => [
             'App\Listeners\Session\CancelNotify',
         ],
+        'App\Events\Student\Submission' => [
+            'App\Listeners\Student\Submission',
+        ],
     ];
 
     /**
