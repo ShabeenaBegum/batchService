@@ -21,6 +21,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Student\Batch\BatchTransferred' => [
             'App\Listeners\Student\Batch\BatchTransferred',
+        ],
         'App\Events\Batch\Created' => [
             'App\Listeners\Batch\Create',
         ],
