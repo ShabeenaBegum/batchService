@@ -6,4 +6,4 @@ Route::get("/batch/{batch}/rating", "RatingController@batch")->name("batch.ratin
 
 Route::get("/session/{session}/rating", "RatingController@session")->name("session.rating");
 
-Route::apiResource('session.rating', 'RatingController', ['only' => ['index', 'store']]);
+Route::apiResource('enroll.session.rating', 'RatingController', ['only' => ['index', 'store']]);
