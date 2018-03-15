@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Batch\Models\Batch;
+use App\Batch\Services\DueService;
 use App\Student\Models\StudentBatch;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DueSubmissionController extends Controller
@@ -12,12 +15,22 @@ class DueSubmissionController extends Controller
      *
      * @return void
      */
-    public function index(Request $request)
+    public function index(Request $req, DueService $service)
     {
-        info($request);
-        if($request->has('enroll_id')){
-            return StudentBatch::where('enroll_id',$request->get('enroll_id') )->first();
-
+        $this->validate($req, [
+            "enroll_id" => ["required_without:batch_id",
+                function($attribute, $value, $fail) {
+                    $enroll_id_active = StudentBatch::where("enroll_id",$value)->first();
+                    if ($enroll_id_active['status'] != config('constant.batch.status.active')) {
+                        return $fail($attribute.' is not ACTIVE');
+                    }
+                }],
+            "batch_id"  => "required_without:enroll_id"
+        ]);
+        try{
+            return resOk($service->handle($req));
+        } catch (\Exception $e){
+            return resError($e);
         }
     }
 
@@ -35,8 +48,8 @@ class DueSubmissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return void
      */
     public function show($id)
     {
@@ -46,9 +59,9 @@ class DueSubmissionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return void
      */
     public function update(Request $request, $id)
     {
@@ -58,11 +71,37 @@ class DueSubmissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return void
      */
     public function destroy($id)
     {
         //
     }
+
+    /**
+     * @param Request $req
+     * @param DueService $service
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function dueSubmissionWithSessionId(Request $req, DueService $service)
+    {
+        $this->validate($req, [
+            "enroll_id" => ["sometimes",
+                function($attribute, $value, $fail) {
+                    $enroll_id_active = StudentBatch::where("enroll_id",$value)->first();
+                    if ($enroll_id_active['status'] != config('constant.batch.status.active')) {
+                        return $fail($attribute.' is not ACTIVE');
+                    }
+                }],
+            "session_id"  => "required"
+        ]);
+        try{
+            return resOk($service->dueSubmissionFromSessionId($req));
+        } catch (\Exception $e){
+            return resError($e);
+        }
+    }
+
+
 }

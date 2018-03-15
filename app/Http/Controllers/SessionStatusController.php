@@ -51,6 +51,11 @@ class SessionStatusController extends Controller
         $batch = Batch::where("sessions._id", $sessionId)->firstOrFail();
         $session = $batch->sessions->where("_id", $sessionId)->first();
         $session->status = config('constant.session.status.completed');
+        $date = utcnow();
+        if($request->has("completed_date")){
+            $date = utcnow($request->get("completed_date"));
+        }
+        $session->completed_date = $date;
         $session->save();
 
         event(new Completed($session));

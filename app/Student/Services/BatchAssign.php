@@ -14,7 +14,7 @@ class BatchAssign
             "user_id" => $data->get("user_id"),
             "enroll_id" => $enrollId,
             "batch_id" => $data->get("batch_id"),
-            "status" => config('constant.Student_batch.status.active'),
+            "status" => config('constant.batch.status.active'),
             "assigned_by" => auth()->user()->_id,
             "sessions" => []
         ]);

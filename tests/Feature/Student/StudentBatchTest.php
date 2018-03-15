@@ -64,7 +64,7 @@ class StudentBatchTest extends TestCase
             "user_id" => $this->student->_id,
             "enroll_id" =>$this->enrollId,
             "batch_id" => $batch["_id"],
-            "status" => config('constant.Student_batch.status.active'),
+            "status" => config('constant.batch.status.active'),
             "assigned_by" => $this->user->_id,
             "sessions" => []
         ]);
@@ -89,7 +89,7 @@ class StudentBatchTest extends TestCase
             "user_id" => $this->student->_id,
             "enroll_id" => $this->enrollId,
             "batch_id" => $batch["_id"],
-            "status" => config('constant.Student_batch.status.active'),
+            "status" => config('constant.batch.status.active'),
             "assigned_by" => $this->user->_id,
             "sessions" => []
         ]);
@@ -104,7 +104,7 @@ class StudentBatchTest extends TestCase
             "user_id" => $this->student->_id,
             "enroll_id" => $this->enrollId,
             "batch_id" => $batch2["_id"],
-            "status" => config('constant.Student_batch.status.active'),
+            "status" => config('constant.batch.status.active'),
             "assigned_by" => $this->user->_id,
             "sessions" => []
         ]);

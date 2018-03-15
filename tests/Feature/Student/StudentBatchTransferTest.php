@@ -117,7 +117,7 @@ class StudentBatchTransferTest extends TestCase
         $studentBatchAssigned->assertStatus(201);
         $studentBatchAssigned->assertJson([
             "batch_id" => $batch1["_id"],
-            "status" => config('constant.Student_batch.status.active')
+            "status" => config('constant.batch.status.active')
         ]);
 
         Event::fake();
@@ -182,7 +182,7 @@ class StudentBatchTransferTest extends TestCase
         $studentBatchAssigned->assertStatus(201);
         $studentBatchAssigned->assertJson([
             "batch_id" => $batch1["_id"],
-            "status" => config('constant.Student_batch.status.active')
+            "status" => config('constant.batch.status.active')
         ]);
 
         //transfer to 2nd batch
@@ -249,7 +249,7 @@ class StudentBatchTransferTest extends TestCase
         $studentBatchAssigned->assertStatus(201);
         $studentBatchAssigned->assertJson([
             "batch_id" => $batch1["_id"],
-            "status" => config('constant.Student_batch.status.active')
+            "status" => config('constant.batch.status.active')
         ]);
 
         Event::fake();

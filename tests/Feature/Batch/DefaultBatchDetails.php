@@ -67,7 +67,18 @@ class DefaultBatchDetails
                     "heading" => "Introduction to MapReduce1",
                     "topics" => ["what is map reduce"],
                     "materials" => [],
-                    "assignments" => [],
+                    "assignments" => [
+                        [
+                            "_id"=> "sdjasbdjasb342-4543",
+                            "name"=> "session1 ass1",
+                            "marks"=> 100
+                        ],
+                        [
+                            "_id"=> "sdfsdfsd-4543",
+                            "name"=> "session1 ass2",
+                            "marks"=> 100
+                        ]
+                    ],
                     "projects" => [],
                     "reference_materials" => [],
                     "mentors" => [],
@@ -80,7 +91,18 @@ class DefaultBatchDetails
                     "heading" => "Introduction to MapReduce2",
                     "topics" => ["what is map reduce"],
                     "materials" => [],
-                    "assignments" => [],
+                    "assignments" => [
+                        [
+                            "_id"=> "347sdjasbdjasb342-4sdfsd",
+                            "name"=> "session2 ass1",
+                            "marks"=> 100
+                        ],
+                        [
+                            "_id"=> "324sdasdfsdfsd-dfsds",
+                            "name"=> "session2 ass2",
+                            "marks"=> 100
+                        ]
+                    ],
                     "projects" => [],
                     "reference_materials" => [],
                     "mentors" => [],

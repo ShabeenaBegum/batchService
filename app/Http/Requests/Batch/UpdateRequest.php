@@ -42,7 +42,6 @@ class UpdateRequest extends FormRequest
             'course_plan_id' => ['required',
                 function($attribute, $value, $fail) {
                     if ($value != $this->batch['course_plan_id']) {
-
                         if($this->batch['status'] != "yet_to_start"){
                             return $fail($attribute.' can not be changed as batch status is not yet_to_start.');
                         }

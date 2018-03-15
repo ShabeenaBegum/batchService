@@ -16,4 +16,10 @@ Route::apiResource('session', 'SessionController');
 
 Route::apiResource('content', 'ContentController');
 
+Route::get('due/session', 'DueSubmissionController@dueSubmissionWithSessionId')->name('due.submission.session');
+
 Route::apiResource('due.submission', 'DueSubmissionController');
+
+
+Route::apiResource('search.submission', 'SearchSubmissionController');
+

@@ -98,6 +98,7 @@ class SessionStatusTest extends TestCase
             ->assertStatus(200);
 
         $res22 = $res22->decodeResponseJson("data");
+//        dd($res2['sessions']);
         $this->assertCount(2, $res22['sessions']);
 
     }

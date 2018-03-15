@@ -7,6 +7,7 @@ return [
             "active" => "ACTIVE",
             "in_active" => "IN_ACTIVE"
         ],
+        'default_due_date' => "45"
     ],
     'session' => [
         'attendance' => [

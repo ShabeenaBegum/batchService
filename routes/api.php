@@ -1,8 +1,7 @@
 <?php
 
-const ROUTES_API_DIR = "routes/api";
+use Illuminate\Support\Facades\File;
 
-
-foreach (File::allFiles(base_path(ROUTES_API_DIR)) as $file){
-    require_once((string)$file);
+foreach (File::allFiles(base_path("routes/api")) as $file){
+    require((string)$file);
 }

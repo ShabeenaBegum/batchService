@@ -38,7 +38,7 @@ class Assign extends FormRequest
             $record = StudentBatch::where([
                 "enroll_id" => $this->route("enroll"),
                 "batch_id" => request('batch_id'),
-                "status" => config('constant.Student_batch.status.active')
+                "status" => config('constant.batch.status.active')
             ])->exists();
             if ($record) {
                 $validator->errors()->add('enroll_id', 'This Enroll is already assigned to batch');

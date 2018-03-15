@@ -26,10 +26,11 @@ class CreateSessionEntry
      */
     public function handle(Completed $event)
     {
+
         $enrolls = $event->session->enrolls();
 
         foreach ($enrolls as $enroll){
-            $record = $enroll->where("sessions.session_id", $event->session->_id)->exists();
+            $record = collect($enroll->sessions)->firstWhere("session_id", $event->session->_id);
             if(!$record){
                 $enroll->sessions()->create([
                     "session_id" => $event->session->_id,
