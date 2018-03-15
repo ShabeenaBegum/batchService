@@ -34,6 +34,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Student\Submission' => [
             'App\Listeners\Student\Submission',
         ],
+        'App\Events\Student\SessionRated' => [
+            'App\Listeners\Session\UpdateRating',
+        ],
+        'App\Events\Session\RatingUpdated' => [
+            'App\Listeners\Batch\UpdateRating',
+        ],
     ];
 
     /**
