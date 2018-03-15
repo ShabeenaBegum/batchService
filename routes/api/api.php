@@ -15,3 +15,5 @@ Route::apiResource('enroll.batches', 'StudentBatchController');
 Route::apiResource('session', 'SessionController');
 
 Route::apiResource('content', 'ContentController');
+
+Route::apiResource('due.submission', 'DueSubmissionController');
