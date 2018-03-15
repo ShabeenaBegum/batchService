@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Student;
 
-use App\Events\Student\Submission;
+use App\Events\Student\Submission as Event;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -24,7 +24,7 @@ class Submission
      * @param  Submission  $event
      * @return void
      */
-    public function handle(Submission $event)
+    public function handle(Event $event)
     {
         //
     }
