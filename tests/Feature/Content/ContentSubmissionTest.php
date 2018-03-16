@@ -29,9 +29,9 @@ class ContentSubmissionTest extends TestCase
         $this->assignment_submitted = ["sessions" =>[[
                             "assignments"=>[
                                 ["assignments_id"=>"asasndk343-43-3cds",
-                                    "submission_link"=>"https://github.com/hhurz/tableExport.jquery.plugin",
-//                                "submission_date"=>(string)Carbon::now(),
-                                "status"=>"pending"
+//                                    "submission_link"=>"https://github.com/hhurz/tableExport.jquery.plugin",
+//                                "created_at"=>(string)Carbon::now(),
+                                    "submission_id"=>"dfsdfsd343-232-343"
                                 ]
                             ]
         ]]];
@@ -63,7 +63,9 @@ class ContentSubmissionTest extends TestCase
             "session_id"=> $student_batch_session_competed->decodeResponseJson()['data'][0]['sessions'][0]['session_id'],
             "submission_link"=>"https://github.com/hhurz/tableExport.jquery.plugin",
             "content_type"=>"assignments",
-            "content_id"=>"asasndk343-43-3cds"]);
+            "content_id"=>"asasndk343-43-3cds",
+            "batch_id"=>$batch->decodeResponseJson()['data']['_id'],
+            "submission_id"=>"dfsdfsd343-232-343"]);
         $res->assertJson(["data"=>$this->assignment_submitted]);
     }
 
@@ -77,7 +79,9 @@ class ContentSubmissionTest extends TestCase
             "user_id" => $this->student->_id,
             "batch_id" => $batch->decodeResponseJson()['data']['_id']
         ]);
-        $session_complete = $this->json("POST", route("session.status.store",           $batch->decodeResponseJson()['data']['sessions'][0]['_id']));
+        $session_complete = $this->json(
+            "POST", route("session.status.store",
+            $batch->decodeResponseJson()['data']['sessions'][0]['_id']));
         $student_batch_session_competed = $this->json("GET", route("enroll.batches.index", $this->enroll_id), [
             "user_id" => $this->student->_id,
             "batch_id" => $batch->decodeResponseJson()['data']['_id']
@@ -88,7 +92,9 @@ class ContentSubmissionTest extends TestCase
             "session_id"=> $student_batch_session_competed->decodeResponseJson()['data'][0]['sessions'][0]['session_id'],
             "submission_link"=>"https://github.com/hhurz/tableExport.jquery.plugin",
             "content_type"=>"assignments",
-            "content_id"=>"asasndk343-43-3cds"]);
+            "content_id"=>"asasndk343-43-3cds",
+            "batch_id"=>$batch->decodeResponseJson()['data']['_id'],
+            "submission_id"=>"dfsdfsd343-232-343"]);
         /*submit same assignment again*/
         $res2 = $this->json('POST',route('content.store'),[
             "user_id"=>$this->student->_id,
@@ -96,7 +102,9 @@ class ContentSubmissionTest extends TestCase
             "session_id"=> $student_batch_session_competed->decodeResponseJson()['data'][0]['sessions'][0]['session_id'],
             "submission_link"=>"https://github.com/hhurz/tableExport.jquery.plugin",
             "content_type"=>"assignments",
-            "content_id"=>"asasndk343-43-3cds"]);
+            "content_id"=>"asasndk343-43-3cds",
+            "batch_id"=>$batch->decodeResponseJson()['data']['_id'],
+            "submission_id"=>"dfsdfsd343-232-343sdsa-3423"]);
         $res2->assertJsonValidationErrors(['content_id']);
     }
 

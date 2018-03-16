@@ -103,7 +103,9 @@ class DueSubmissionTest extends TestCase
             "session_id"=> $student_batch_assign->decodeResponseJson()['data'][0]['batch']['sessions'][0]['_id'],
             "submission_link"=>"https://github.com/hhurz/tableExport.jquery.plugin",
             "content_type"=>"assignments",
-            "content_id"=>"sdjasbdjasb342-4543"]);
+            "content_id"=>"sdjasbdjasb342-4543",
+            "batch_id"=>$batch->decodeResponseJson()['data']['_id'],
+            "submission_id"=>"dfsdfsd343-232-343"]);
         $due_submission = $this->json('GET',route('due.submission.index',"all"), ["enroll_id"=> $this->enroll_id1]);
         $this->assertCount(1,$due_submission->decodeResponseJson()['data'][$this->enroll_id1]['assignment'][0]);
         $due_submission->assertJson($this->due_submission);
@@ -134,10 +136,14 @@ class DueSubmissionTest extends TestCase
         /*submit assignment for student1*/
         $submit_assignment1 = $this->json('POST',route('content.store'),[
             "enroll_id"=> $this->enroll_id1,
+            "user_id"=> $this->student1->_id,
             "session_id"=> $student_batch_assign1->decodeResponseJson()['data'][0]['batch']['sessions'][0]['_id'],
             "submission_link"=>"https://github.com/hhurz/tableExport.jquery.plugin",
             "content_type"=>"assignments",
-            "content_id"=>"sdjasbdjasb342-4543"]);
+            "content_id"=>"sdjasbdjasb342-4543",
+            "batch_id"=>$batch->decodeResponseJson()['data']['_id'],
+            "submission_id"=>"dfsdfsd343-232-343"]);
+//        dd($submit_assignment1->decodeResponseJson());
         $due_submission = $this->json('GET',route('due.submission.session'),
             ["session_id"=> $batch->decodeResponseJson()['data']['sessions'][0]['_id']]);
 

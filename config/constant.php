@@ -21,4 +21,9 @@ return [
             "cancelled" => "CANCELLED",
         ],
     ],
+    'content' => [
+        'assignments' => 'assignments',
+        'projects' => 'projects',
+        'quiz' => 'quiz',
+    ]
 ];

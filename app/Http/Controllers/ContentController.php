@@ -6,6 +6,7 @@ use App\Batch\Services\ContentService;
 use App\Student\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ContentController extends Controller
 {
@@ -31,11 +32,16 @@ class ContentController extends Controller
         $this->validate($request,[
             'session_id' => 'required',
             'enroll_id'  => 'required',
-            'user_id'    => 'sometimes',
+            'user_id'    => 'required',
+            'batch_id'    => 'required',
             'content_id' => 'required',
-            'submission_link' => 'required',
-            'content_type' => 'required']);
+            'submission_link' => 'required|url',
+            'content_type' => ['required',
+                Rule::in([config('constant.content.assignments'), config('constant.content.projects')])],
+            'submission_id' => 'required']);
         $type = $request->get('content_type');
+        info($request->get('session_id'));
+        info($request->get('enroll_id'));
         $student_batch = StudentBatch::where('sessions.session_id',$request->get('session_id'))
             ->where('enroll_id',$request->get('enroll_id'))
             ->first();
