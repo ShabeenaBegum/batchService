@@ -9,26 +9,28 @@
 namespace App\Batch\Services;
 
 
+use App\BaseService;
 use App\Batch\BatchHelpers;
 use App\Batch\Models\Batch;
 use Carbon\Carbon;
 
-class StatusChangeService
+class StatusChangeService implements BaseService
 {
     /**
      * @return mixed
      */
-    public function handle($request, $session_id)
+    public function handle($data)
     {
+        $session_id = $data['session_id'];
         $batch = Batch::where("sessions._id",$session_id)->first();
         $cancelArr = [];
-        $cancel['requested_by'] = $request->has('requested_by') ? $request->get('requested_by') : "";
-        $cancel['approved_by'] = $request->has('approved_by') ? $request->get('approved_by') : "";
-        $cancel['reason'] = $request->has('reason') ? $request->get('reason') : "";
+        $cancel['requested_by'] = isset($data['requested_by']) ? $data['requested_by'] : "";
+        $cancel['approved_by'] = $data['approved_by'] ? $data['approved_by'] : "";
+        $cancel['reason'] = $data['reason'] ? $data['reason'] : "";
         $cancel['cancelled_on'] = (string)Carbon::now();
 
         $session = collect($batch->sessions()->all())->where('_id',$session_id)->first();
-        if($request->get('change_date') == 'false' ){
+        if($data['change_date'] == 'false' ){
             $cancelArr = $session->cancellation;
             $cancelArr[] = $cancel;
             $session->cancellation = $cancelArr;
@@ -36,13 +38,13 @@ class StatusChangeService
             $session->save();
             return $batch->fresh();
         }
-        if($request->has('session_date') && $request->has('session_time') ) {
+        if(isset($data['session_date']) && isset($data['session_time'])) {
             $cancelArr = $session->cancellation;
             $cancelArr[] = $cancel;
             $session->cancellation = $cancelArr;
             $session->status = "cancel";
-            $session->date = Carbon::parse($request->get('session_date'))->format('Y-m-d');
-            $session->time = $request->get('session_time');
+            $session->date = Carbon::parse($data['session_date'])->format('Y-m-d');
+            $session->time = $data['session_time'];
             $session->save();
             return $batch->fresh();
         }

@@ -21,7 +21,6 @@ class DueSubmissionTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        //$this->withoutExceptionHandling();
         $this->refreshDataBase();
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, 'api');

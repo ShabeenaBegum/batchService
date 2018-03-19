@@ -3,18 +3,21 @@
 namespace App\Batch\Services;
 
 
+use App\BaseService;
 use App\Batch\BatchHelpers;
 use Carbon\Carbon;
 
-class ExtraSession
+class ExtraSession implements BaseService
 {
-    public function handle($data, $batch)
+    public function handle($data)
     {
-        if ($data->has("session_date") && $data->has("session_time")) {
+        $batch = $data['batch_details'];
+
+        if (isset($data["session_date"]) && isset($data["session_time"])) {
             $extra_session['heading'] = $data['session_heading'];
             $extra_session['topic'] = $data['session_topics'];
-            $extra_session['date'] = Carbon::parse($data->get("session_date"))->format("Y-m-d");
-            $extra_session['time'] = $data->get("session_time");
+            $extra_session['date'] = Carbon::parse($data["session_date"])->format("Y-m-d");
+            $extra_session['time'] = $data["session_time"];
             $batch->sessions()->create($extra_session);
             return $batch;
         }
@@ -34,8 +37,8 @@ class ExtraSession
         $after_session = null;
         $sessions_array = null;
 
-        if ($data->has("after_session_id")) {
-            $after_session = $sessionlist->firstWhere("_id", $data->get("after_session_id"));
+        if (isset($data["after_session_id"])) {
+            $after_session = $sessionlist->firstWhere("_id", $data["after_session_id"]);
         } else {
             $after_session = $sessionlist->last();
         }

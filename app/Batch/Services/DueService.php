@@ -9,11 +9,12 @@
 namespace App\Batch\Services;
 
 
+use App\BaseService;
 use App\Batch\Models\Batch;
 use App\Student\Models\StudentBatch;
 use Carbon\Carbon;
 
-class DueService
+class DueService implements BaseService
 {
     /**
      * @param $data

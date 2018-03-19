@@ -16,7 +16,7 @@ class ExampleTest extends TestCase
     {
         parent::setUp();
 
-        $this->withExceptionHandling();
+        //$this->withExceptionHandling();
 
         $this->refreshDataBase();
 
