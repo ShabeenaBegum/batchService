@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Batch\Models\Batch;
 use App\Batch\Services\DueService;
+use App\Http\Requests\Content\DueSubmissionRequest;
 use App\Student\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,22 +14,14 @@ class DueSubmissionController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param DueSubmissionRequest $req
+     * @param DueService $service
      * @return void
      */
-    public function index(Request $req, DueService $service)
+    public function index(DueSubmissionRequest $req, DueService $service)
     {
-        $this->validate($req, [
-            "enroll_id" => ["required_without:batch_id",
-                function($attribute, $value, $fail) {
-                    $enroll_id_active = StudentBatch::where("enroll_id",$value)->first();
-                    if ($enroll_id_active['status'] != config('constant.batch.status.active')) {
-                        return $fail($attribute.' is not ACTIVE');
-                    }
-                }],
-            "batch_id"  => "required_without:enroll_id"
-        ]);
         try{
-            return resOk($service->handle($req));
+            return resOk($service->handle($req->all()));
         } catch (\Exception $e){
             return resError($e);
         }

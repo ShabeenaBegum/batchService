@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Batch\Services\ContentService;
+use App\Http\Requests\Content\ContentRequest;
 use App\Student\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,25 +24,13 @@ class ContentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param ContentRequest $request
      * @param ContentService $service
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, ContentService $service)
+    public function store(ContentRequest $request, ContentService $service)
     {
-        $this->validate($request,[
-            'session_id' => 'required',
-            'enroll_id'  => 'required',
-            'user_id'    => 'required',
-            'batch_id'    => 'required',
-            'content_id' => 'required',
-            'submission_link' => 'required|url',
-            'content_type' => ['required',
-                Rule::in([config('constant.content.assignments'), config('constant.content.projects')])],
-            'submission_id' => 'required']);
         $type = $request->get('content_type');
-        info($request->get('session_id'));
-        info($request->get('enroll_id'));
         $student_batch = StudentBatch::where('sessions.session_id',$request->get('session_id'))
             ->where('enroll_id',$request->get('enroll_id'))
             ->first();
