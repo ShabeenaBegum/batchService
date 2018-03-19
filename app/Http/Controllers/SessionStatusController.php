@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Batch\Models\Batch;
 use App\Batch\Models\Session;
+use App\Batch\Services\Sessions\StatusStore;
+use App\Batch\Services\Sessions\StatusView;
 use App\Events\Session\Completed;
 use Illuminate\Http\Request;
 
@@ -20,12 +22,13 @@ class SessionStatusController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param $sessionId
+     * @param StatusView $service
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $sessionId)
+    public function index($sessionId, StatusView $service)
     {
-        $batch = Batch::where("sessions._id", $sessionId)->firstOrFail();
-        $session = $batch->sessions->where("_id", $sessionId)->first();
+        $session = $service->handle(["session_id" => $sessionId]);
         return resOk($session);
     }
 
@@ -46,20 +49,13 @@ class SessionStatusController extends Controller
      * @param $sessionId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $sessionId)
+    public function store($sessionId, StatusStore $service)
     {
-        $batch = Batch::where("sessions._id", $sessionId)->firstOrFail();
-        $session = $batch->sessions->where("_id", $sessionId)->first();
-        $session->status = config('constant.session.status.completed');
-        $date = utcnow();
-        if($request->has("completed_date")){
-            $date = utcnow($request->get("completed_date"));
-        }
-        $session->completed_date = $date;
-        $session->save();
-
+        $session = $service->handle([
+            "session_id" => $sessionId,
+            "completed_date" => request("completed_date", null)
+        ]);
         event(new Completed($session));
-
         return resOk($session, 201);
     }
 
