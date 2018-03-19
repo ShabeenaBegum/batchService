@@ -46,13 +46,13 @@ class DueService implements BaseService
         }
         if($assignment_id != null){
             if(isset($data['enroll_id'])){
-                return $this->getStudentDueSubmissions($assignment_id, $project_id, $student_submission, $batch_submission, $data['enroll_id']);
+                return StudentDueSubmissions::get($assignment_id, $project_id, $student_submission, $batch_submission, $data['enroll_id']);
             } else if(isset($data['batch_id'])){
 
                 $student_batches = collect(StudentBatch::where('batch_id',$data['batch_id'])->get());
                 foreach ($student_batches as $student_batch){
                     if($student_batch['status'] == config('constant.batch.status.active'))
-                        $student[] = $this->getStudentDueSubmissions($assignment_id, $project_id, $student_batch, $batch_submission, $student_batch['enroll_id']);
+                        $student[] = StudentDueSubmissions::get($assignment_id, $project_id, $student_batch, $batch_submission, $student_batch['enroll_id']);
                 }
                 return $student;
             }

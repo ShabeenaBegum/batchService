@@ -26,7 +26,7 @@ class RatingTest extends TestCase
     {
         parent::setUp();
         $this->refreshDataBase();
-        //$this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, 'api');
         $this->batch = $this->createBatch();
