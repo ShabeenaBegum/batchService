@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Batch;
+namespace App\Http\Requests\Session;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SessionCancel extends FormRequest
+class Update extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

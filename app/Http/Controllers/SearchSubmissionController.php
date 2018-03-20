@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Submission\Search;
+use App\Http\Requests\Submission\SearchAll;
 use App\Student\Models\StudentBatch;
+use App\Student\Services\Submission\Search as SearchService;
 use Illuminate\Http\Request;
 
 class SearchSubmissionController extends Controller
@@ -20,27 +23,12 @@ class SearchSubmissionController extends Controller
      * @param $search
      * @return $student_batch
      */
-    public function index(Request $req, $search)
+    public function index(Search $req, $search, SearchService $service)
     {
-
-        $this->validate($req, [
-            "enroll_id" => "required",
-            "session_id" => "sometimes"
-        ]);
-        $student_batch = StudentBatch::where('enroll_id',$req->get('enroll_id'))->first();
-        if($search == "all"){
-            if($req->has('enroll_id') && $req->has('session_id')){
-                return $student_batch['sessions']->where('session_id',$req->get('session_id'))->first();
-            } else if($req->has('enroll_id')) {
-                return $student_batch['sessions'];
-            }
-        } else {
-            if($req->has('enroll_id') && $req->has('session_id')){
-                return $student_batch['sessions']->where('session_id',$req->get('session_id'))->pluck($search);
-            }
-        }
-
-
+        $data = $req->all();
+        $data['search'] = $search;
+        $sessions = $service->handle($data);
+        return resOk($sessions);
     }
 
     /**
@@ -60,12 +48,8 @@ class SearchSubmissionController extends Controller
      * @param Request $req
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $req)
+    public function show(SearchAll $req)
     {
-        $this->validate($req, [
-            "batch_id" => "required",
-            "session_id" => "sometimes"
-        ]);
         $student_batch = StudentBatch::where('batch_id',$req->get('batch_id'))->get(['sessions']);
         if($req->has('session_id')){
             return $student_batch->where('sessions.session_id',$req->get('session_id'))->get();

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Batch\Models\Batch;
 use App\Batch\Services\DueService;
+use App\Batch\Services\DueServiceSession;
+use App\Http\Requests\DueSubmission;
+use App\Http\Requests\DueSubmissionSession;
 use App\Student\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,24 +16,18 @@ class DueSubmissionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return void
+     * @param DueSubmission $request
+     * @param DueService $service
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $req, DueService $service)
+    public function index(DueSubmission $request, DueService $service)
     {
-        $this->validate($req, [
-            "enroll_id" => ["required_without:batch_id",
-                function($attribute, $value, $fail) {
-                    $enroll_id_active = StudentBatch::where("enroll_id",$value)->first();
-                    if ($enroll_id_active['status'] != config('constant.batch.status.active')) {
-                        return $fail($attribute.' is not ACTIVE');
-                    }
-                }],
-            "batch_id"  => "required_without:enroll_id"
-        ]);
         try{
-            return resOk($service->handle($req));
+            $dueSubmission = $service->handle($request->all());
+            return resOk($dueSubmission);
         } catch (\Exception $e){
-            return resError($e);
+            return resError(["message" => $e->getMessage()]);
         }
     }
 
@@ -80,24 +77,15 @@ class DueSubmissionController extends Controller
     }
 
     /**
-     * @param Request $req
-     * @param DueService $service
+     * @param DueSubmissionSession $request
+     * @param DueServiceSession $service
      * @return \Illuminate\Http\JsonResponse
      */
-    public function dueSubmissionWithSessionId(Request $req, DueService $service)
+    public function dueSubmissionWithSessionId(DueSubmissionSession $request, DueServiceSession $service)
     {
-        $this->validate($req, [
-            "enroll_id" => ["sometimes",
-                function($attribute, $value, $fail) {
-                    $enroll_id_active = StudentBatch::where("enroll_id",$value)->first();
-                    if ($enroll_id_active['status'] != config('constant.batch.status.active')) {
-                        return $fail($attribute.' is not ACTIVE');
-                    }
-                }],
-            "session_id"  => "required"
-        ]);
         try{
-            return resOk($service->dueSubmissionFromSessionId($req));
+            $dueSubmission = $service->handle($request);
+            return resOk($dueSubmission);
         } catch (\Exception $e){
             return resError($e);
         }

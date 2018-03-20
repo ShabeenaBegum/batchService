@@ -2,13 +2,15 @@
 
 namespace App\Batch\Services;
 
+use App\BaseService;
 use App\Batch\BatchHelpers;
 
-class UpdateService
+class UpdateService implements BaseService
 {
 
-    public function handle($data, $batch_data)
+    public function handle($data)
     {
+        $batch_data = $data["batch_details"];
         $batch_data->status = $data ['status'];
         $batch_data->mode_of_training = $data ['mode_of_training'];
         $batch_data->batch_urgency = $data ['batch_urgency'];
@@ -36,24 +38,5 @@ class UpdateService
         $batch_data->save();
         return $batch_data;
 
-    }
-
-    /**
-     * @param $data
-     * @param $batch
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateStatus($data, $batch)
-    {
-        $batch->status = $data['type'];
-        $type['by'] = $data['by'];
-        $type['reason'] = $data['reason'];
-        info(gettype($batch['cancel']));
-        if(isset($batch['cancel'])){
-            $cancels = $batch['cancel'];
-        }
-        $batch['cancel'] = $cancels[] = $type;
-        $batch->save();
-        return $batch;
     }
 }

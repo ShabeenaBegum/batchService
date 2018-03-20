@@ -16,7 +16,6 @@ class CreationTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        //$this->withoutExceptionHandling();
         $this->refreshDataBase();
         $this->user = factory(User::class)->create();
         $this->batch_details = DefaultBatchDetails::getBatch();

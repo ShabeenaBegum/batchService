@@ -3,30 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Events\Student\Session\AttendanceMarked;
+use App\Student\Attendance\Add;
+use App\Student\Attendance\View;
 use App\Student\Models\StudentBatch;
 use App\Student\Models\StudentSession;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function index($enrollId, $sessionId)
+    public function index($enrollId, $sessionId, View $service)
     {
-        $studentBatch = StudentBatch::where("enroll_id", $enrollId)
-                                    ->where("sessions.session_id", $sessionId)->firstOrFail();
-        $session = $studentBatch->sessions->where("session_id", $sessionId)->first();
-        return resOk($session);
+        $attendance = $service->handle(['enroll_id' => $enrollId, 'session_id' => $sessionId]);
+        return resOk($attendance);
     }
 
-    public function store(Request $request, $enrollId, $sessionId)
+    public function store($enrollId, $sessionId, Add $service)
     {
-        $studentBatch = StudentBatch::where("enroll_id", $enrollId)
-            ->where("sessions.session_id", $sessionId)->firstOrFail();
-        $session = $studentBatch->sessions->where("session_id", $sessionId)->first();
-        $session->attendance = strtoupper($request->get("attendance", config('constant.session.attendance.present')));
-        $session->attendance_date = utcnow();
-        $session->save();
-        event(new AttendanceMarked($session));
-        return resOk($session);
+        $data['enroll_id'] = $enrollId;
+        $data['session_id'] = $sessionId;
+        $data['attendance'] = request("attendance", config('constant.session.attendance.present'));
+        $attendance = $service->handle($data);
+        event(new AttendanceMarked($attendance));
+        return resOk($attendance);
     }
 
     /*

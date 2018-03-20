@@ -3,7 +3,7 @@
 use MongoDB\BSON\UTCDateTime;
 use Ramsey\Uuid\Uuid;
 
-function resOk($data, $status = 200){
+function resOk($data = [], $status = 200){
     return response()->json([
         "success" => true,
         "data" => $data

@@ -21,7 +21,6 @@ class DueSubmissionTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        //$this->withoutExceptionHandling();
         $this->refreshDataBase();
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, 'api');
@@ -88,10 +87,12 @@ class DueSubmissionTest extends TestCase
     public function test_due_assignment_pass_enroll_id()
     {
         $batch = $this->json("POST",route('batch.store'), array_merge($this->batch_details,["due_date"=>"1"]));
+
         $student_batch = $this->json("POST", route("enroll.batches.store", $this->enroll_id1), [
             "user_id" => $this->student1->_id,
             "batch_id" => $batch->decodeResponseJson()['data']['_id']
         ]);
+
         $session_complete = $this->json("POST", route("session.status.store",array_merge([$batch->decodeResponseJson()['data']['sessions'][0]['_id']],["completed_date"=>"2018-03-10"])));
         $student_batch_assign = $this->json("GET", route("enroll.batches.index", $this->enroll_id1), [
             "user_id" => $this->student1->_id,
@@ -107,6 +108,7 @@ class DueSubmissionTest extends TestCase
             "batch_id"=>$batch->decodeResponseJson()['data']['_id'],
             "submission_id"=>"dfsdfsd343-232-343"]);
         $due_submission = $this->json('GET',route('due.submission.index',"all"), ["enroll_id"=> $this->enroll_id1]);
+
         $this->assertCount(1,$due_submission->decodeResponseJson()['data'][$this->enroll_id1]['assignment'][0]);
         $due_submission->assertJson($this->due_submission);
 
@@ -146,6 +148,7 @@ class DueSubmissionTest extends TestCase
 //        dd($submit_assignment1->decodeResponseJson());
         $due_submission = $this->json('GET',route('due.submission.session'),
             ["session_id"=> $batch->decodeResponseJson()['data']['sessions'][0]['_id']]);
+
 
         $this->assertCount(2,$due_submission->decodeResponseJson()['data']);
         /*student 1 assignment due count 1*/

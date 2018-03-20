@@ -6,6 +6,7 @@ use App\Batch\BatchHelpers;
 use App\Batch\Models\Batch;
 use App\Batch\Models\Session;
 use App\Batch\Services\StatusChangeService;
+use App\Http\Requests\Session\Update;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -72,18 +73,14 @@ class SessionController extends Controller
      * @param StatusChangeService $service
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $session_id, StatusChangeService $service)
+    public function update(Update $request, $session_id, StatusChangeService $service)
     {
-        $this->validate($request, [
-            'session_id' => 'required',
-            'change_date' => 'required|boolean',
-            'requested_by' => 'sometimes',
-            'approved_by' => 'required',
-            'reason' => 'required'
-        ]);
+
         try{
-            return resOk($service->handle($request, $session_id));
-        } catch (Exception $e)
+            $data = $request->all();
+            $data["session_id"] = $session_id;
+            return resOk($service->handle($request));
+        } catch (\Exception $e)
         {
             return resError(["message" => $e->getMessage()]);
         }

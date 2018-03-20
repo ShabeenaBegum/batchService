@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Batch;
+namespace App\Http\Requests\Session;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SessionCancel extends FormRequest
+class StatusStore extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class SessionCancel extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,11 +24,7 @@ class SessionCancel extends FormRequest
     public function rules()
     {
         return [
-            'session_id' => 'required',
-            'change_date' => 'required|boolean',
-            'requested_by' => 'sometimes',
-            'approved_by' => 'required',
-            'reason' => 'required'
+            //
         ];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Batch;
+namespace App\Http\Requests\Submission;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SessionCancel extends FormRequest
+class Search extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class SessionCancel extends FormRequest
     public function rules()
     {
         return [
-            'session_id' => 'required',
-            'change_date' => 'required|boolean',
-            'requested_by' => 'sometimes',
-            'approved_by' => 'required',
-            'reason' => 'required'
+            "enroll_id" => "required",
+            "session_id" => "sometimes"
         ];
     }
 }

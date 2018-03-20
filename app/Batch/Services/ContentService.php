@@ -9,30 +9,31 @@
 namespace App\Batch\Services;
 
 
+use App\BaseService;
 use App\Student\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class ContentService
+class ContentService implements BaseService
 {
     /**
      * @param $request
      * @return mixed
      */
-    public function handle($request,$session,$student_batch,$type)
+    public function handle($data)
     {
 
-        $submission = $session->$type;
-        $submit[$request->get('content_type').'_id'] = $request->get('content_id');
+        $submission = $data['session'][$data['type']];
+        $submit[$data['content_type'].'_id'] = $data['content_id'];
 //        $submit['submission_link'] = $request->get('submission_link');
 //        $submit['submission_date'] = (string)Carbon::now();
 //        $submit['status'] = "pending";
         $submit['created_at'] = (string)Carbon::now();
-        $submit['submission_id'] = $request->get('submission_id');
+        $submit['submission_id'] = $data['submission_id'];
         $submission[] = ($submit);
-        $session->$type = $submission;
+        $data['session'][$data['type']] = $submission;
         //TODO send Point service data($submit)->link,submission_id, session_id,batch_id,type
-        $session->save();
-        return $student_batch;
+        $data['session']->save();
+        return $data['student_batch'];
     }
 }

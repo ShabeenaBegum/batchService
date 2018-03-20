@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Batch\Models\Batch;
+use App\Batch\Services\Batch\StatusChange;
+use App\Batch\Services\Batch\View;
 use App\Batch\Services\CreateService;
 use App\Batch\Services\ExtraSession;
 use App\Batch\Services\StatusChangeService;
 use App\Batch\Services\UpdateService;
 use App\Http\Requests\Batch\CreateRequest;
+use App\Http\Requests\Batch\ExtraSession as ExtraSessionRequest;
+use App\Http\Requests\Batch\SessionCancel;
+use App\Http\Requests\Batch\StatusChange as StatusChangeRequest;
 use App\Http\Requests\Batch\UpdateRequest;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class BatchController extends Controller
 {
@@ -24,16 +28,15 @@ class BatchController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $req
+     * @param View $service
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index(View $service)
     {
-        if ($req->has("ids")) {
-            $id_array = explode(',', $req->get('ids'));
-            return resOk(Batch::whereIn('_id', $id_array)->get());
-        }
-        return resOk(Batch::paginate(10));
+        $data['batch_ids'] = request("ids", null);
+        $batches = $service->handle($data);
+        return resOk($batches);
+
     }
 
     /**
@@ -48,7 +51,8 @@ class BatchController extends Controller
     {
         try {
             $data = $request->all();
-            return resOk($service->handle($data), 201);
+            $batch = $service->handle($data);
+            return resOk($batch, 201);
         } catch (Exception $e) {
             info($e);
             throw $e;
@@ -78,7 +82,9 @@ class BatchController extends Controller
     {
         try {
             $data = $request->all();
-            return resOk($service->handle($data, $batch));
+            $data['batch_details'] = $batch;
+            $batch = $service->handle($data);
+            return resOk($batch);
         } catch (Exception $e) {
             info($e);
             return resError();
@@ -94,7 +100,8 @@ class BatchController extends Controller
     public function destroy(Batch $batch)
     {
         try {
-            return resOk($batch->delete());
+            $batch->delete();
+            return resOk();
         } catch (Exception $e) {
             return resError();
         }
@@ -105,56 +112,46 @@ class BatchController extends Controller
      * @param Batch $batch
      * @return \Illuminate\Http\JsonResponse
      */
-    public function BatchStatusChange(Request $request, Batch $batch, UpdateService $service)
+    public function BatchStatusChange(StatusChangeRequest $request, Batch $batch, StatusChange $service)
     {
-        $this->validate($request, ['type' => ['required', Rule::in(['cancel', 'active', 'inactive'])],
-            'by' => 'required',
-            'reason' => 'required']);
+
         try {
-            return resOk($s->updateStatus($request->all(), $batch));
+            $data = $request->all();
+            $data['batch_details'] = $batch;
+            $batch = $service->handle($data);
+            return resOk($batch);
         } catch (Exception $e) {
             return resError();
         }
     }
 
-    public function BatchExtraSession(Request $request, Batch $batch)
+    public function BatchExtraSession(ExtraSessionRequest $request, Batch $batch, ExtraSession $service)
     {
-        $this->validate($request, [
-            'session_heading' => 'required',
-            'session_topics' => 'required|array',
-            'requested_by' => 'required',
-            'after_session_id' => 'sometimes',
-            'session_date' => 'sometimes',
-            'session_time' => 'sometimes',
-        ]);
-
         try {
-            return resOk((new ExtraSession())->handle($request, $batch));
+            $data = $request->all();
+            $data['batch_details'] = $batch;
+            $extraSession = $service->handle($data);
+            return resOk($extraSession);
         } catch (Exception $e) {
             return resError(["message" => $e->getMessage()]);
         }
     }
 
     /**
-     * @param Request $request
+     * @param SessionCancel $request
      * @param Batch $batch
      * @param StatusChangeService $service
      * @return \Illuminate\Http\JsonResponse
      */
-    public function SessionCancel(Request $request, Batch $batch, StatusChangeService $service)
+    public function SessionCancel(SessionCancel $request, Batch $batch, StatusChangeService $service)
     {
-        $this->validate($request, [
-            'session_id' => 'required',
-            'change_date' => 'required|boolean',
-            'requested_by' => 'sometimes',
-            'approved_by' => 'required',
-            'reason' => 'required'
-        ]);
-
         try {
-            return resOk($service->handle($request, $batch));
+            $data = $request->all();
+            $data["batch_details"] = $batch;
+            $cancelledSession = $service->handle($data);
+            return resOk($cancelledSession);
         } catch (Exception $e) {
-            return $e;
+            return resError(["message" => $e->getMessage()]);
         }
     }
 

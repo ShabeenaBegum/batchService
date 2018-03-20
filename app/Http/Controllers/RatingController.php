@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Batch\Models\Batch;
 use App\Events\Student\SessionRated;
 use App\Student\Models\StudentBatch;
+use App\Student\Services\Rating\Add;
+use App\Student\Services\Rating\Session;
+use App\Student\Services\Rating\Show;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,10 +26,13 @@ class RatingController extends Controller
      * @param $sessionId
      * @return Response
      */
-    public function index($enrollId, $sessionId)
+    public function index($enrollId, $sessionId, Show $service)
     {
-        $studentBatch = StudentBatch::where("enroll_id", $enrollId)->where("sessions.session_id", $sessionId)->first();
-        $session =  $studentBatch->sessions->where("session_id", $sessionId)->first();
+        $session = $service->handle([
+            'enroll_id' => $enrollId,
+            'session_id' => $sessionId
+        ]);
+
         return resOk($session);
     }
 
@@ -36,31 +42,33 @@ class RatingController extends Controller
      * @param $sessionId
      * @return array
      */
-    public function session($sessionId)
+    public function session($sessionId, Session $service)
     {
-        $batch = Batch::where("sessions._id", $sessionId)->firstOrFail();
-        $session = $batch->sessions->where("_id", $sessionId)->first();
+        $session = $service->handle(['session_id' => $sessionId]);
         return resOk($session);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @param $enrollId
      * @param $sessionId
+     * @param Add $service
      * @return array
      */
-    public function store(Request $request, $enrollId, $sessionId)
+    public function store($enrollId, $sessionId, Add $service)
     {
-        $studentBatch = StudentBatch::where("enroll_id", $enrollId)->where("sessions.session_id", $sessionId)->first();
-        $session = $studentBatch->sessions->where("session_id", $sessionId)->first();
-        $rating = $request->all();
-        $rating['rated_on'] = utcnow();
-        $session->rating = $rating;
-        $session->save();
+        $this->validate(\request(), [
+            "rating" => "required"
+        ]);
 
-        event(new SessionRated($sessionId, $request->get("rating"), $request->get("comment")));
+        $session = $service->handle([
+            "enroll_id" => $enrollId,
+            "session_id" => $sessionId,
+            "rating" => request()->all()
+        ]);
+
+        event(new SessionRated($sessionId, request("rating"), request("comment")));
 
         return resOk($session, 201);
     }
@@ -68,7 +76,7 @@ class RatingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param $batchId
      * @return Response
      */
     public function batch($batchId)

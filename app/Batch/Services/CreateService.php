@@ -2,10 +2,11 @@
 
 namespace App\Batch\Services;
 
+use App\BaseService;
 use App\Batch\BatchHelpers;
 use App\Batch\Models\Batch;
 
-class CreateService
+class CreateService implements BaseService
 {
     public function handle($data)
     {

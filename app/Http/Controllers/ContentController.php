@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Batch\Services\ContentService;
+use App\Http\Requests\Content\AddContent;
 use App\Student\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,18 +28,8 @@ class ContentController extends Controller
      * @param ContentService $service
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, ContentService $service)
+    public function store(AddContent $request, ContentService $service)
     {
-        $this->validate($request,[
-            'session_id' => 'required',
-            'enroll_id'  => 'required',
-            'user_id'    => 'required',
-            'batch_id'    => 'required',
-            'content_id' => 'required',
-            'submission_link' => 'required|url',
-            'content_type' => ['required',
-                Rule::in([config('constant.content.assignments'), config('constant.content.projects')])],
-            'submission_id' => 'required']);
         $type = $request->get('content_type');
         info($request->get('session_id'));
         info($request->get('enroll_id'));
@@ -58,7 +49,12 @@ class ContentController extends Controller
             ],
         ]);
         try{
-            return resOk($service->handle($request,$session,$student_batch,$type));
+            $data = $request->all();
+            $data['session'] = $session;
+            $data['student_batch'] = $student_batch;
+            $data['type'] = $type;
+            $content = $service->handle($data);
+            return resOk($content);
         } catch (\Exception $e)
         {
             return resError();
