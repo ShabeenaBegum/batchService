@@ -3,6 +3,7 @@ namespace App\Batch\Services\Batch;
 
 
 use App\BaseService;
+use App\Batch\Repositories\BatchRepository;
 
 class StatusChange implements BaseService
 {

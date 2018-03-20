@@ -12,17 +12,30 @@ namespace App\Batch\Services;
 use App\BaseService;
 use App\Batch\BatchHelpers;
 use App\Batch\Models\Batch;
+use App\Batch\Repositories\BatchRepository;
 use Carbon\Carbon;
 
 class StatusChangeService implements BaseService
 {
+    private $batchRepo;
+
+    /**
+     * StatusChangeService constructor.
+     * @param $batchRepo
+     */
+    public function __construct(BatchRepository $batchRepo)
+    {
+        $this->batchRepo = $batchRepo;
+    }
+
+
     /**
      * @return mixed
      */
     public function handle($data)
     {
         $session_id = $data['session_id'];
-        $batch = Batch::where("sessions._id",$session_id)->first();
+        $batch = $this->batchRepo->findBySessionId($session_id);
         $cancelArr = [];
         $cancel['requested_by'] = isset($data['requested_by']) ? $data['requested_by'] : "";
         $cancel['approved_by'] = $data['approved_by'] ? $data['approved_by'] : "";
